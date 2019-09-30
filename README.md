@@ -6,13 +6,16 @@ Is it worth it to change your guess? Run a few thousand simulated games and find
 Information about [the Monty Hall Problem](https://en.wikipedia.org/wiki/Monty_Hall_problem)
 
 ## How to run the simulator:
-Clone this repo
+### Clone this repo:
+
 `git clone git@github.com:tdtshafer/monty-hall.git`
 
-Navigate into the `monty-hall` folder
+### Navigate into the `monty-hall` folder:
+
 `cd monty-hall`
 
-Run the file with python
+### Run the file with python:
+
 `python ./simulation.py`
 
 You'll see a prompt asking if you want to run a simulation or play the game yourself!
