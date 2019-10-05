@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>The Monty Hall Problem</title>
+  <meta name="description" content="An interactive look at the classic logic puzzle">
+  <style type="text/css">
+    .headline {
+        width: 80%;
+        margin: 0 auto;
+        background: #ca7321;
+        font-size: 220%;
+    }
+    .interactive_text_area{
+        width: 80%;
+        margin: 0 auto;
+        background: rebeccapurple;
+        font-size: 150%,
+    }
+
+    .row_of_doors {
+        width: 100%;
+        margin: 0 auto;
+        background: #f0e68c;
+        margin-bottom: 3%;
+    }
+    .door {
+        width: 20%;
+        padding: 6%;
+        background: #da4747;
+    }
+    .text_commands {
+        font-size: 220%;
+        margin-top: 0px;
+        margin: 0 auto;
+        background: #1c2899;
+        width: 80%;
+        text-align: center;
+        display: block;
+    }
+</style>
+</head>
+
+<body>
+  <script src="scripts.js"></script>
+  <div class="headline">
+    <h1>The Monty Hall Problem</h1>
+  </div>
+<div>
+    <div name="interactive_text_area" class="interactive_text_area">
+        <p name="long_dialog" class="long_dialog">
+            Imagine a gameshow with three doors - one has a car behind it, the other two have goats.
+            If you can correctly pick the door with a car, you win!
+            Which door do you pick?
+        </p>
+    </div>
+    <div name="row_of_doors" class="row_of_doors">
+        <img id="door_one" src="images/door_one_closed.png" alt="Door One: Closed" class="door" onclick="openDoor()"/>
+        <img id="door_two" src="images/door_two_closed.png" alt="Door Two: Closed" class="door"/>
+        <img id="door_three" src="images/door_three_closed.png" alt="Door Three: Closed" class="door"/>
+        <div name="short_dialog" class="text_commands">
+            <h4>pick a door</h4>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
