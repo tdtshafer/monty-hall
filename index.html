@@ -6,17 +6,36 @@
   <title>The Monty Hall Problem</title>
   <meta name="description" content="An interactive look at the classic logic puzzle">
   <style type="text/css">
-    .headline {
+    .collage-container{
+        width: 95%;
+        margin: 0 auto;
+        margin-bottom: 0px;
+        background: greenyellow;
+        display: inline-block;
+    }
+    .collage{
+        width: 100%;
+    }
+    .headline-container {
         width: 80%;
         margin: 0 auto;
+        margin-top: 0px;
         background: #ca7321;
         font-size: 220%;
+        display: block;
+    }
+
+    .headline{
+      vertical-align: top;
     }
     .interactive_text_area{
         width: 80%;
         margin: 0 auto;
         background: rebeccapurple;
-        font-size: 150%,
+    }
+
+    .long_dialog{
+      font-size: 150%;
     }
 
     .row_of_doors {
@@ -44,8 +63,11 @@
 
 <body>
   <script src="scripts.js"></script>
-  <div class="headline">
-    <h1>The Monty Hall Problem</h1>
+  <div id="collage-container">
+      <img id="collage" src="images/monty-hall-collage.png" alt="Collage of host Monty Hall" class="collage"/>
+  </div>
+  <div class="headline-container">
+    <h1 class="headline">The Monty Hall Problem</h1>
   </div>
 <div>
     <div name="interactive_text_area" class="interactive_text_area">
@@ -56,11 +78,11 @@
         </p>
     </div>
     <div name="row_of_doors" class="row_of_doors">
-        <img id="door_one" src="images/door_one_closed.png" alt="Door One: Closed" class="door" onclick="openDoor()"/>
-        <img id="door_two" src="images/door_two_closed.png" alt="Door Two: Closed" class="door"/>
-        <img id="door_three" src="images/door_three_closed.png" alt="Door Three: Closed" class="door"/>
-        <div name="short_dialog" class="text_commands">
-            <h4>pick a door</h4>
+        <img id="one" src="images/door_one_closed.png" alt="Door One: closed" class="door"/>
+        <img id="two" src="images/door_two_closed.png" alt="Door Two: closed" class="door"/>
+        <img id="three" src="images/door_three_closed.png" alt="Door Three: closed" class="door"/>
+        <div name="short_dialog" class="text_commands_container">
+            <h4 id="text_commands" class="text_commands">choose a door</h4>
         </div>
     </div>
 </div>
