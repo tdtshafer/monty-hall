@@ -20,21 +20,22 @@ var doorSelectedText;
 var winningIndex;
 var indexToReveal;
 
+window.onload = setupGame;
 
-window.onload = function() {
+function setupGame() {
     doors = document.getElementsByClassName('door');
     doorsArray = Array.from(doors);
-    console.log(doors);
     
     randomizeDoors();
-    console.log(doorContents);
 
     doorsArray.forEach(function(door){
         doorTransitionHandler(door)
     })
 
     document.getElementById('yes_switch').addEventListener('click', switchConfirmed);
-    document.getElementById('yes_switch').addEventListener('click', switchRejected);
+    document.getElementById('no_switch').addEventListener('click', switchRejected);
+    document.getElementById('open_button').addEventListener('click', theBigReveal);
+    document.getElementById('play_again').addEventListener('click', resetGame);
 };  
 
 function formatDoorString(string, doorNumber, doorState){
@@ -52,8 +53,7 @@ async function doorListener(e){
     doorSelectedIndex = numstringToIndex[doorNumber];
     let doorState = e.srcElement.alt.split(' ').slice(-1)[0];
     let newDoorState = stateTransition[doorState];
-    console.log(newDoorState);
-    console.log(stateTransition);
+
     let newImageString = formatDoorString(
         'images/door_doorNumber_doorState.png', 
         doorNumber, 
@@ -91,13 +91,11 @@ function randomizeDoors(){
 
 function revealOneWrongAnswer(){
     for (var i=0; i<doorContents.length; i++){
-        console.log(doorContents[i]);
         if(!doorContents[i] && i !== doorSelectedIndex){
             indexToReveal = i;
             break;
         }
     }
-    console.log(indexToReveal);
     doorToReveal = doors[indexToReveal];
     let doorNumber = doorToReveal.id;
     let newDoorState = stateTransition['revealWrong'];
@@ -122,15 +120,18 @@ function revealOneWrongAnswer(){
 
 async function promptSwitch(){
     await sleep(200); //2000
-    updateCommand('Would you like to switch your guess?');
-    document.getElementById('switch_button_container').style.display = 'block';
+    updateCommand('Would you like to change your guess?');
+    showButton('switch_button_container');
     document.getElementById('yes_switch').innerHTML = "Switch to door " + getOtherDoor().id;
     document.getElementById('no_switch').innerHTML = "Stick with door " + doorSelectedText;
 }
 
 function getOtherDoor(){
     return doorsArray.find(function(door){
-        if (!(numstringToIndex[door.id] in [indexToReveal, doorSelectedIndex])){
+        console.log(numstringToIndex[door.id])
+        console.log([indexToReveal, doorSelectedIndex])
+        console.log(!(numstringToIndex[door.id] in [indexToReveal, doorSelectedIndex]))
+        if (!([indexToReveal, doorSelectedIndex].includes(numstringToIndex[door.id]))){
             return door;
         }
     });
@@ -147,11 +148,63 @@ function switchConfirmed(){
     switchTo.setAttribute('src', 'images/door_' + switchTo.id + '_selected.png');
 
     doorSelectedIndex = numstringToIndex[switchTo.id];
-    doorSelectedText switchTo.id;
+    doorSelectedText = switchTo.id;
+    hideButton('switch_button_container');
+    showButton('play_again_container');
+    showButton('open_button');
+    updateCommand("You switched to door " + switchTo.id);
 }
 
 function switchRejected(){
-    
+    hideButton('yes_switch');
+    hideButton('no_switch');
+    showButton('play_again_container');
+    showButton('open_button');
+    updateCommand("You stuck with door " + doorSelectedText);
+}
+
+function theBigReveal(){
+    let winningDoor = doorsArray[winningIndex];
+    let selectedDoor = doorsArray[doorSelectedIndex];
+    let otherDoor = doorsArray[numstringToIndex[getOtherDoor().id]];
+
+    if(winningIndex===doorSelectedIndex){
+        winningDoor.setAttribute('alt', 'Door ' + winningDoor.id + ": car");
+        winningDoor.setAttribute('src', 'images/door_' + winningDoor.id + '_selected_car.png');
+        winningDoor.setAttribute('class', 'car-door');
+
+        otherDoor.setAttribute('alt', 'Door ' + otherDoor.id + ": goat");
+        otherDoor.setAttribute('src', 'images/door_' + otherDoor.id + '_goat.png');
+        otherDoor.setAttribute('class', 'goat-door');
+    } else {
+        selectedDoor.setAttribute('alt', 'Door ' + selectedDoor.id + ": goat");
+        selectedDoor.setAttribute('src', 'images/door_' + selectedDoor.id + '_selected_goat.png');
+        selectedDoor.setAttribute('class', 'goat-door');
+
+        otherDoor.setAttribute('alt', 'Door ' + otherDoor.id + ": car");
+        otherDoor.setAttribute('src', 'images/door_' + otherDoor.id + '_car.png');
+        otherDoor.setAttribute('class', 'car-door');
+    }
+
+    updateCommand(winningIndex===doorSelectedIndex ? "Congratulations! You won!" : "No luck this time!");
+    hideButton('open_button');
+    showButton('play_again');
+}
+
+function resetGame(){
+    doorsArray.forEach(function(door){
+        door.setAttribute('alt', 'Door ' + door.id + ": closed");
+        door.setAttribute('src', 'images/door_' + door.id + '_closed.png');
+        door.setAttribute('class', 'door');
+    })
+    randomizeDoors();
+    updateCommand('Choose a door');
+    hideButton('play_again');
+    hideButton('switch_button_container');
+    showButton('yes_switch', 'inline');
+    showButton('no_switch', 'inline');
+    hideButton('switch_button_container');
+    setupGame();
 }
 
 function updateCommand(string){
@@ -159,6 +212,13 @@ function updateCommand(string){
     commands.innerHTML = string;
 }
 
+function showButton(buttonId, displayType='block'){
+    document.getElementById(buttonId).style.display = displayType;
+}
+
+function hideButton(buttonId){
+    document.getElementById(buttonId).style.display = 'none';
+}
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));

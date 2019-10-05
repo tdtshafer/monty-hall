@@ -42,24 +42,46 @@
     }
 
     .switch_button_container{
-        width: 70%;
+        width: 100%;
         margin: 0 auto;
         background: blueviolet;
         display: none;
         padding: 1%;
     }
-
+    
     .switch_button{
-        width: 30%;
-        height: 45px;
+        width: 20%;
+        height: 55px;
         margin: 0 auto;
         fill: gainsboro;
         border-radius: 5px;
         background-color: rgb(48, 48, 48);
         color: white;
         border: none;
-        margin-left: 15%;
         font-size: 120%;
+        margin-left: 20%
+    }
+
+    .open_button{
+        width: 30%;
+        height: 55px;
+        margin: 0 auto;
+        fill: gainsboro;
+        border-radius: 5px;
+        background-color: rgb(48, 48, 48);
+        color: white;
+        border: none;
+        font-size: 120%;
+        display: none;
+    }
+
+
+    .play_button_container{
+        width: 80%;
+        margin: 0 auto;
+        background: blueviolet;
+        display: none;
+        padding: 1%;
     }
 
     .row_of_doors {
@@ -79,6 +101,7 @@
         padding-top: 6%;
         padding-right: 6%;
         background: #632727;
+        margin-bottom: 0.5%;
     }
 
     .car-door {
@@ -86,6 +109,7 @@
         padding-top: 6%;
         padding-left: 6%;
         background: #632727;
+        padding-bottom: 0.5%;
     }
     .text_commands {
         font-size: 220%;
@@ -96,6 +120,14 @@
         text-align: center;
         display: block;
     }
+    
+    /* simulation below */
+    .simulation_door {
+        width: 10%;
+        padding: 3%;
+        background: #da4747;
+    }
+
 </style>
 </head>
 
@@ -110,23 +142,47 @@
 <div>
     <div name="interactive_text_area" class="interactive_text_area">
         <p name="long_dialog" class="long_dialog">
-            Imagine a gameshow with three doors - one has a car behind it, the other two have goats.
-            If you can correctly pick the door with a car, you win!
-            Which door do you pick?
+            The late Monty Hall hosted several gameshows throughout his long career, most notably Let's Make a deal. 
+            In one game, he presented contestants with three doors. One of them hid a car while the other two had goats behind them.
+            Part way through the game, Hall would reveal some information and offer the contestant a chance to change their guess.
+            Let's see how it works.
         </p>
     </div>
     <div name="short_dialog" class="text_commands_container">
-        <h4 id="text_commands" class="text_commands">choose a door</h4>
+        <h4 id="text_commands" class="text_commands">Choose a door</h4>
     </div>
     <div id="switch_button_container" class="switch_button_container">
         <button id="yes_switch" class="switch_button">Yes</button>
         <button id="no_switch" class="switch_button">No</button>
+        
+    </div>
+    <div id="play_again_container" class="play_again_container">
+        <button id="open_button" class="open_button">Open all the doors!</button>
+        <button id="play_again" class="open_button">Play again?</button>
     </div>
     <div name="row_of_doors" class="row_of_doors">
         <img id="one" src="images/door_one_closed.png" alt="Door One: closed" class="door"/>
         <img id="two" src="images/door_two_closed.png" alt="Door Two: closed" class="door"/>
         <img id="three" src="images/door_three_closed.png" alt="Door Three: closed" class="door"/>
-        
+    </div>
+    <div>
+        <div id="anaysis">
+            <h2>Analysis</h2>
+            <p class="long_dialog">
+              Remember when you had the opportunity to change your guess? Does that matter?
+              It seems like your guess was arbitrary anyway, so why would it help to switch?
+              Let's run a larger number of simulations and find out.
+              We'll start with a contestant who never switches.
+            </p>
+        </div>
+        <div id="game_simulator">
+            <div>
+              <img id="one" src="images/door_one_closed.png" alt="Door One: closed" class="simulation_door"/>
+              <img id="two" src="images/door_two_closed.png" alt="Door Two: closed" class="simulation_door"/>
+              <img id="three" src="images/door_three_closed.png" alt="Door Three: closed" class="simulation_door"/>
+              <img id="chart" src="" alt="Door Three: closed" class="analysis_chart"/>
+            </div>
+        </div>
     </div>
 </div>
 
