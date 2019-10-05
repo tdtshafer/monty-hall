@@ -20,13 +20,16 @@
         width: 80%;
         margin: 0 auto;
         margin-top: 0px;
+        margin-left: 10%;
         background: #ca7321;
         font-size: 220%;
-        display: block;
+        display: inline-block;
+        padding: 0px;
     }
 
     .headline{
       vertical-align: top;
+      padding: 0px;
     }
     .interactive_text_area{
         width: 80%;
@@ -38,16 +41,51 @@
       font-size: 150%;
     }
 
+    .switch_button_container{
+        width: 70%;
+        margin: 0 auto;
+        background: blueviolet;
+        display: none;
+        padding: 1%;
+    }
+
+    .switch_button{
+        width: 30%;
+        height: 45px;
+        margin: 0 auto;
+        fill: gainsboro;
+        border-radius: 5px;
+        background-color: rgb(48, 48, 48);
+        color: white;
+        border: none;
+        margin-left: 15%;
+        font-size: 120%;
+    }
+
     .row_of_doors {
         width: 100%;
         margin: 0 auto;
         background: #f0e68c;
         margin-bottom: 3%;
+        margin-left: 3%;
     }
     .door {
         width: 20%;
         padding: 6%;
         background: #da4747;
+    }
+    .goat-door {
+        width: 25%;
+        padding-top: 6%;
+        padding-right: 6%;
+        background: #632727;
+    }
+
+    .car-door {
+        width: 25%;
+        padding-top: 6%;
+        padding-left: 6%;
+        background: #632727;
     }
     .text_commands {
         font-size: 220%;
@@ -77,13 +115,18 @@
             Which door do you pick?
         </p>
     </div>
+    <div name="short_dialog" class="text_commands_container">
+        <h4 id="text_commands" class="text_commands">choose a door</h4>
+    </div>
+    <div id="switch_button_container" class="switch_button_container">
+        <button id="yes_switch" class="switch_button">Yes</button>
+        <button id="no_switch" class="switch_button">No</button>
+    </div>
     <div name="row_of_doors" class="row_of_doors">
         <img id="one" src="images/door_one_closed.png" alt="Door One: closed" class="door"/>
         <img id="two" src="images/door_two_closed.png" alt="Door Two: closed" class="door"/>
         <img id="three" src="images/door_three_closed.png" alt="Door Three: closed" class="door"/>
-        <div name="short_dialog" class="text_commands_container">
-            <h4 id="text_commands" class="text_commands">choose a door</h4>
-        </div>
+        
     </div>
 </div>
 
