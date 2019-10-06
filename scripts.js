@@ -225,7 +225,7 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-//anysis stuff
+//analysis stuff
 
 function startSimulation(){
     removeFinalResultLine();
@@ -233,13 +233,64 @@ function startSimulation(){
     document.getElementById('start_simulation').removeEventListener('click', startSimulation);
     let noSwitchTrials = 100;
     let switchTrials = 50;
-    addNoSwitchGuess(noSwitchTrials);
-    runNoSwitchTrials(noSwitchTrials);
+    runSwitchTrials(switchTrials);
+    // addNoSwitchGuess(noSwitchTrials);
+    // runNoSwitchTrials(noSwitchTrials);
     
 }
 
 var LONG_SLEEP = 100;
 var SHORT_SLEEP = 2;
+
+async function runSwitchTrials(numTrials){
+    let data = [];
+    // for (var i=1; i<=numTrials; i++){
+    let trialResult = runOneSwitchTrial();
+    console.log(trialResult);
+
+}
+
+function runOneSwitchTrial(){
+    //set up doors
+    let simulationDoors = document.getElementsByClassName('sim-door');
+    simulationDoorsArray = Array.from(simulationDoors);
+    let simulationDoorContents = [1, 0, 0];
+    
+    //randomize doors
+    let randomNumber = Math.floor(Math.random()*3);
+    for (var i=0; i<randomNumber; i++){
+        simulationDoorContents.splice(0,0, simulationDoorContents.pop());
+    }
+    winningIndex = randomNumber;
+    
+    //make the guess
+    var guess = Math.floor(Math.random()*3);
+
+    //reveal one door
+    for (var i=0; i<simulationDoorContents.length; i++){
+        if(!simulationDoorContents[i] && i !== guess){
+            var doorToRevealIndex = i;
+            break;
+        } 
+    }
+
+    //get door to switch to
+    for (var i=0; i<simulationDoorContents.length; i++){
+        if (!([doorToRevealIndex, guess].includes(numstringToIndex[simulationDoorsArray[i].id]))){
+            var otherDoorIndex = i;
+            break;
+        }
+    }
+
+    
+
+    return {
+        value: guess===winningIndex ? 1 : 0, 
+        selectedDoor: simulationDoorsArray[guess], 
+        doorToReveal: simulationDoorsArray[doorToRevealIndex],
+        switchTo: simulationDoorsArray[otherDoorIndex],
+    };
+}
 
 async function runNoSwitchTrials(numTrials){
     let data = [];
