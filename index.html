@@ -123,16 +123,62 @@
     
     /* simulation below */
     .simulation_door {
-        width: 10%;
-        padding: 3%;
+        width: 8%;
+        padding: 2%;
         background: #da4747;
     }
 
+    .start_simulation{
+        width: 30%;
+        height: 55px;
+        margin: 0 auto;
+        fill: gainsboro;
+        border-radius: 5px;
+        background-color: rgb(48, 48, 48);
+        color: white;
+        border: none;
+        font-size: 120%;
+    }
+
+    .sim-goat-door {
+        width: 10%;
+        padding-top: 1%;
+        padding-right: 1%;
+        background: #632727;
+        margin-bottom: 0.5%;
+    }
+
+    .sim-car-door {
+        width: 10%;
+        padding-top: 1%;
+        padding-left: 1%;
+        background: #632727;
+        padding-bottom: 0.5%;
+    }
+
+    .chart {
+      width: 70%;
+      display: inline;
+    }
+
+    path { 
+      stroke: steelblue;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: grey;
+      stroke-width: 1;
+      shape-rendering: crispEdges;
+    }
 </style>
 </head>
 
 <body>
-  <script src="scripts.js"></script>
+
   <div id="collage-container">
       <img id="collage" src="images/monty-hall-collage.png" alt="Collage of host Monty Hall" class="collage"/>
   </div>
@@ -166,7 +212,7 @@
         <img id="three" src="images/door_three_closed.png" alt="Door Three: closed" class="door"/>
     </div>
     <div>
-        <div id="anaysis">
+        <div id="analysis">
             <h2>Analysis</h2>
             <p class="long_dialog">
               Remember when you had the opportunity to change your guess? Does that matter?
@@ -175,16 +221,21 @@
               We'll start with a contestant who never switches.
             </p>
         </div>
+        <div>
+            <button id="start_simulation" class="start_simulation">Start Simulation</button>
+        </div>
         <div id="game_simulator">
             <div>
               <img id="one" src="images/door_one_closed.png" alt="Door One: closed" class="simulation_door"/>
               <img id="two" src="images/door_two_closed.png" alt="Door Two: closed" class="simulation_door"/>
               <img id="three" src="images/door_three_closed.png" alt="Door Three: closed" class="simulation_door"/>
-              <img id="chart" src="" alt="Door Three: closed" class="analysis_chart"/>
+              <div id="chart" class="chart"></div>
             </div>
         </div>
     </div>
 </div>
-
+<!-- load the d3.js library -->	
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="scripts.js"></script>
 </body>
 </html>

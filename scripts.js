@@ -36,6 +36,7 @@ function setupGame() {
     document.getElementById('no_switch').addEventListener('click', switchRejected);
     document.getElementById('open_button').addEventListener('click', theBigReveal);
     document.getElementById('play_again').addEventListener('click', resetGame);
+    document.getElementById('start_simulation').addEventListener('click', startSimulation);
 };  
 
 function formatDoorString(string, doorNumber, doorState){
@@ -223,3 +224,126 @@ function hideButton(buttonId){
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
+
+//anysis stuff
+
+function startSimulation(){
+    document.getElementById('start_simulation').removeEventListener('click', startSimulation);
+    let noSwitchTrials = 300;
+    let switchTrials = 50;
+    runNoSwitchTrials(noSwitchTrials);
+    
+}
+
+function runNoSwitchTrials(numTrials){
+    let data = [];
+    
+    for (var i=0; i<numTrials; i++){
+        data.push(runOneNoSwitchTrial());
+        // updateChart(data);
+    }
+    buildChart(processData(data));
+}
+
+function runOneNoSwitchTrial(){
+    let simulationDoors = document.getElementsByClassName('simulation_door');
+    
+    simulationDoorsArray = Array.from(simulationDoors);
+    let simulationDoorContents = [1, 0, 0];
+    let randomNumber = Math.floor(Math.random()*3);
+    for (var i=0; i<randomNumber; i++){
+        simulationDoorContents.splice(0,0, simulationDoorContents.pop());
+    }
+    winningIndex = randomNumber;
+    var value;
+    var guess = Math.floor(Math.random()*2.99);
+    console.log("GUESS: " + guess);
+    console.log(simulationDoorsArray);
+    simulationDoorsArray[guess].setAttribute('src', 'images/door_' + simulationDoorsArray[guess].id + '_selected.png');
+    if(guess===winningIndex){
+        simulationDoors[guess].setAttribute(
+            'src', 'images/door_' + simulationDoorsArray[guess].id + '_selected_car.png'
+        );
+        simulationDoorsArray[guess].setAttribute('class', 'sim-car-class');
+        value = 1;
+    } else {
+        simulationDoorsArray[guess].setAttribute('src', 'images/door_' + simulationDoorsArray[guess].id + '_selected_goat.png');
+        simulationDoorsArray[guess].setAttribute('class', 'sim-goat-class');
+        value = 0;
+    }
+
+    simulationDoorsArray[guess].setAttribute('src', 'images/door_' + simulationDoorsArray[guess].id + '_closed.png');
+    simulationDoorsArray[guess].setAttribute('class', 'simulation_door');
+
+    return value;
+}
+
+function processData(data){
+    let wins = 0;
+
+    return data.map(function(datapoint, index){
+        console.log(datapoint);
+        console.log(index);
+        trialNumber = index+1;
+        wins += datapoint;
+        winPercentage = wins/trialNumber;
+        console.log(winPercentage);
+        let rvalue = {'value': winPercentage, 'trialNumber': trialNumber};
+        console.log(rvalue);
+        return rvalue;
+    });
+}
+
+function updateChart(data){
+
+}
+function buildChart(data){
+    // Set the dimensions of the canvas / graph
+    var	margin = {top: 30, right: 10, bottom: 20, left: 30},
+        width = 400 - margin.left - margin.right,
+        height = 150 - margin.top - margin.bottom;
+
+    // Set the ranges
+    var	x = d3.scale.linear().range([0, width]).domain([0,1]);
+    var	y = d3.scale.linear().range([height, 0]).domain([0,1]);
+
+    // Define the axes
+    var	xAxis = d3.svg.axis().scale(x)
+        .orient("bottom").ticks(5);
+
+    var	yAxis = d3.svg.axis().scale(y)
+        .orient("left").ticks(4 );
+
+    // Define the line
+    var	valueline = d3.svg.line()
+        .x(function(d) { return x(d.trialNumber);})
+        .y(function(d) { return y(d.value); });
+        
+    // Adds the svg canvas
+    var	svg = d3.select("#chart")
+        .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        // Scale the range of the data
+        x.domain(d3.extent(data, function(d) { return d.trialNumber; }));
+        y.domain([0, d3.max(data, function(d) { return d.value; })]);
+
+        // Add the valueline path.
+        svg.append("path")
+            .attr("class", "line")
+            .attr("d", valueline(data));
+
+        // Add the X Axis
+        svg.append("g")	
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis);
+
+        // Add the Y Axis
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis);
+}
