@@ -122,10 +122,11 @@
     }
     
     /* simulation below */
-    .simulation_door {
+    .sim-door {
         width: 8%;
         padding: 2%;
         background: #da4747;
+        
     }
 
     .start_simulation{
@@ -140,21 +141,29 @@
         font-size: 120%;
     }
 
-    .sim-goat-door {
-        width: 10%;
-        padding-top: 1%;
-        padding-right: 1%;
-        background: #632727;
-        margin-bottom: 0.5%;
-    }
-
-    .sim-car-door {
-        width: 10%;
-        padding-top: 1%;
-        padding-left: 1%;
+    .sim-goat {
+        width: 9.5%;
+        padding-top: 2%;
+        padding-right: 2%;
         background: #632727;
         padding-bottom: 0.5%;
     }
+
+    .sim-car {
+        width: 9.5%;
+        padding-top: 2%;
+        padding-left: 2%;
+        background: #632727;
+        padding-bottom: 0.5%;
+    }
+    /* .game_simulator {
+        width: 100%;
+        margin: 0 auto;
+        background: #f0e68c;
+        margin-bottom: 3%;
+        margin-left: 3%;
+        padding-left: 10%;
+    } */
 
     .chart {
       width: 70%;
@@ -211,7 +220,7 @@
         <img id="two" src="images/door_two_closed.png" alt="Door Two: closed" class="door"/>
         <img id="three" src="images/door_three_closed.png" alt="Door Three: closed" class="door"/>
     </div>
-    <div>
+    <div id="simulation_and_analysis">
         <div id="analysis">
             <h2>Analysis</h2>
             <p class="long_dialog">
@@ -219,18 +228,22 @@
               It seems like your guess was arbitrary anyway, so why would it help to switch?
               Let's run a larger number of simulations and find out.
               We'll start with a contestant who never switches.
+              <form class="long_dialog">
+                  How often will a contestant win that doesn't switch? (0 to 100):
+                  <input id="no_switch_guess" type="number" name="quantity" min="0" max="100" value="50">
+              </form>
             </p>
         </div>
         <div>
-            <button id="start_simulation" class="start_simulation">Start Simulation</button>
+            <button id="start_simulation" class="start_simulation">Let's Find Out!</button>
         </div>
         <div id="game_simulator">
             <div>
-              <img id="one" src="images/door_one_closed.png" alt="Door One: closed" class="simulation_door"/>
-              <img id="two" src="images/door_two_closed.png" alt="Door Two: closed" class="simulation_door"/>
-              <img id="three" src="images/door_three_closed.png" alt="Door Three: closed" class="simulation_door"/>
-              <div id="chart" class="chart"></div>
+              <img id="one" src="images/door_one_closed.png" alt="Door One: closed" class="sim-door"/>
+              <img id="two" src="images/door_two_closed.png" alt="Door Two: closed" class="sim-door"/>
+              <img id="three" src="images/door_three_closed.png" alt="Door Three: closed" class="sim-door"/>
             </div>
+            <div id="chart" class="chart"></div>
         </div>
     </div>
 </div>
