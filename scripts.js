@@ -48,6 +48,14 @@ function doorTransitionHandler(door){
     door.addEventListener('click', doorListener);
 }
 
+function changeDoor(door, newState, newClass=null){
+    door.setAttribute('alt', 'Door ' + door.id + ": " + newState);
+    door.setAttribute('src', 'images/door_' + door.id + '_' + newState +'.png');
+    if(newClass){
+        door.setAttribute('class', newClass);
+    }   
+}
+
 async function doorListener(e){
     let doorNumber = e.srcElement.id;
     doorSelectedText = doorNumber;
@@ -98,24 +106,7 @@ function revealOneWrongAnswer(){
         }
     }
     doorToReveal = doors[indexToReveal];
-    let doorNumber = doorToReveal.id;
-    let newDoorState = stateTransition['revealWrong'];
-
-    let newImageString = formatDoorString(
-        'images/door_doorNumber_doorState.png', 
-        doorNumber, 
-        newDoorState
-    );
-    let newImageAlt = formatDoorString(
-        'Door doorNumber: doorState', 
-        doorNumber, 
-        newDoorState
-    );
-
-    doorToReveal.setAttribute('class', 'goat-door');
-    doorToReveal.setAttribute('alt', newImageAlt);
-    doorToReveal.setAttribute('src', newImageString);
-    
+    changeDoor(doorToReveal, 'goat', 'goat-door')
     updateCommand('Door ' + doorNumber + ' contains a goat');
 }
 
@@ -129,9 +120,9 @@ async function promptSwitch(){
 
 function getOtherDoor(){
     return doorsArray.find(function(door){
-        console.log(numstringToIndex[door.id])
-        console.log([indexToReveal, doorSelectedIndex])
-        console.log(!(numstringToIndex[door.id] in [indexToReveal, doorSelectedIndex]))
+        // console.log(numstringToIndex[door.id])
+        // console.log([indexToReveal, doorSelectedIndex])
+        // console.log(!(numstringToIndex[door.id] in [indexToReveal, doorSelectedIndex]))
         if (!([indexToReveal, doorSelectedIndex].includes(numstringToIndex[door.id]))){
             return door;
         }
@@ -141,12 +132,9 @@ function getOtherDoor(){
 function switchConfirmed(){
     let switchFrom = doorsArray[doorSelectedIndex];
     let switchTo = getOtherDoor();
-    console.log(switchFrom);
-    switchFrom.setAttribute('alt', 'Door ' + switchFrom.id + ": closed");
-    switchFrom.setAttribute('src', 'images/door_' + switchFrom.id + '_closed.png');
 
-    switchTo.setAttribute('alt', 'Door ' + switchTo.id + ": selected");
-    switchTo.setAttribute('src', 'images/door_' + switchTo.id + '_selected.png');
+    changeDoor(switchFrom, 'closed');
+    changeDoor(switchTo, 'selected');
 
     doorSelectedIndex = numstringToIndex[switchTo.id];
     doorSelectedText = switchTo.id;
@@ -170,23 +158,12 @@ function theBigReveal(){
     let otherDoor = doorsArray[numstringToIndex[getOtherDoor().id]];
 
     if(winningIndex===doorSelectedIndex){
-        winningDoor.setAttribute('alt', 'Door ' + winningDoor.id + ": car");
-        winningDoor.setAttribute('src', 'images/door_' + winningDoor.id + '_selected_car.png');
-        winningDoor.setAttribute('class', 'car-door');
-
-        otherDoor.setAttribute('alt', 'Door ' + otherDoor.id + ": goat");
-        otherDoor.setAttribute('src', 'images/door_' + otherDoor.id + '_goat.png');
-        otherDoor.setAttribute('class', 'goat-door');
+        changeDoor(winningDoor, 'selected_car', 'car-door');
+        changeDoor(otherDoor, 'goat', 'goat-door');
     } else {
-        selectedDoor.setAttribute('alt', 'Door ' + selectedDoor.id + ": goat");
-        selectedDoor.setAttribute('src', 'images/door_' + selectedDoor.id + '_selected_goat.png');
-        selectedDoor.setAttribute('class', 'goat-door');
-
-        otherDoor.setAttribute('alt', 'Door ' + otherDoor.id + ": car");
-        otherDoor.setAttribute('src', 'images/door_' + otherDoor.id + '_car.png');
-        otherDoor.setAttribute('class', 'car-door');
+        changeDoor(selectedDoor, 'selected_goat', 'goat-door');
+        changeDoor(otherDoor, 'car', 'car-door');
     }
-
     updateCommand(winningIndex===doorSelectedIndex ? "Congratulations! You won!" : "No luck this time!");
     hideButton('open_button');
     showButton('play_again');
@@ -194,9 +171,7 @@ function theBigReveal(){
 
 function resetGame(){
     doorsArray.forEach(function(door){
-        door.setAttribute('alt', 'Door ' + door.id + ": closed");
-        door.setAttribute('src', 'images/door_' + door.id + '_closed.png');
-        door.setAttribute('class', 'door');
+        changeDoor(door, 'closed', 'door');
     })
     randomizeDoors();
     updateCommand('Choose a door');
@@ -308,16 +283,15 @@ async function runNoSwitchTrials(numTrials){
         i <= 5 ? await sleep(LONG_SLEEP) : await sleep(SHORT_SLEEP);
         
         //show open door
-        let goatOrCarString = trialResult.value ? simSelectedDoor.id + '_selected_car.png' : simSelectedDoor.id + '_selected_goat.png'
-        simSelectedDoor.setAttribute('src', 'images/door_' + goatOrCarString);
-        simSelectedDoor.setAttribute('class', trialResult.value ? 'sim-car' : 'sim-goat');
+        let goatOrCarString = trialResult.value ? 'selected_car' : 'selected_goat';
+        let goatOrCarClass = trialResult.value ? 'sim-car' : 'sim-goat';
+        changeDoor(simSelectedDoor, goatOrCarString, goatOrCarClass)
         
         //sleep2
         i <= 5 ? await sleep(LONG_SLEEP) : await sleep(SHORT_SLEEP);
         
         //reset door images
-        simSelectedDoor.setAttribute('src', 'images/door_' + simSelectedDoor.id + '_closed.png')
-        simSelectedDoor.setAttribute('class', 'sim-door');
+        changeDoor(simSelectedDoor, 'closed', 'sim-door');
 
          //update chart
          updateChart(processData(data));
@@ -325,9 +299,7 @@ async function runNoSwitchTrials(numTrials){
 
     addFinalResultLine(processData(data)[data.length - 1]);
     document.getElementById('start_simulation').addEventListener('click', startSimulation);
-    document.getElementById('start_simulation').innerHTML = "Run Again";
-    
-    
+    document.getElementById('start_simulation').innerHTML = "Run Again";   
 }
 
 function runOneNoSwitchTrial(){
