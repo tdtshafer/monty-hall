@@ -107,11 +107,12 @@ function revealOneWrongAnswer(){
     }
     doorToReveal = doors[indexToReveal];
     changeDoor(doorToReveal, 'goat', 'goat-door')
-    updateCommand('Door ' + doorNumber + ' contains a goat');
+    updateCommand('Door ' + doorToReveal.id + ' contains a goat');
 }
 
 async function promptSwitch(){
     await sleep(200); //2000
+    console.log('here')
     updateCommand('Would you like to change your guess?');
     showButton('switch_button_container');
     document.getElementById('yes_switch').innerHTML = "Switch to door " + getOtherDoor().id;
@@ -206,28 +207,84 @@ function startSimulation(){
     removeFinalResultLine();
     document.getElementById("no_switch_guess").disabled = true;
     document.getElementById('start_simulation').removeEventListener('click', startSimulation);
-    let noSwitchTrials = 100;
-    let switchTrials = 50;
-    runSwitchTrials(switchTrials);
-    // addNoSwitchGuess(noSwitchTrials);
+    // let noSwitchTrials = 100;
+    // let switchTrials = 100;
+    let numberOfTrials = 100;
+    alternateTrials(numberOfTrials);
+    addGuessLine(numberOfTrials);
+    // runSwitchTrials(numberOfTrials);
     // runNoSwitchTrials(noSwitchTrials);
     
 }
 
-var LONG_SLEEP = 100;
+var LONG_SLEEP = 1000;
 var SHORT_SLEEP = 2;
 
-async function runSwitchTrials(numTrials){
-    let data = [];
-    // for (var i=1; i<=numTrials; i++){
-    let trialResult = runOneSwitchTrial();
-    console.log(trialResult);
-
+async function variableSleep(trialNumber){
+    trialNumber <= 5 ? await sleep(LONG_SLEEP) : await sleep(SHORT_SLEEP);
 }
 
-function runOneSwitchTrial(){
+async function alternateTrials(numberOfTrials){
+    var switchData = [];
+    var noSwitchData = [];
+    for (var i=1; i<=numberOfTrials; i++){
+        switchData = await runSwitchTrials(1, switchData, i);
+        noSwitchData = await runNoSwitchTrials(1, noSwitchData, i);
+    }
+    addFinalResultLine(processData(switchData)[switchData.length - 1], 'Switch');
+    addFinalResultLine(processData(noSwitchData)[noSwitchData.length - 1], 'No switch');
+    document.getElementById('start_simulation').addEventListener('click', startSimulation);
+    document.getElementById('start_simulation').innerHTML = "Run Again"; 
+}
+
+async function runSwitchTrials(numTrials, data, trialNumber){
+    let trialResult = runOneSwitchTrialLogic();
+    console.log(trialResult);
+    
+    let simSelectedDoor = trialResult.selectedDoor;
+    
+    data.push(trialResult.value);
+    
+    //show selected door
+    changeDoor(simSelectedDoor, 'selected');
+    
+    //sleep1
+    await variableSleep(trialNumber);
+    
+    //reveal one wrong answer
+    changeDoor(trialResult.doorToReveal, 'goat', 'sim-goat-switch');
+
+    //sleep2
+    await variableSleep(trialNumber);
+
+    //switch guess
+    changeDoor(simSelectedDoor, 'closed');
+    changeDoor(trialResult.switchTo, 'selected');
+
+    //sleep3
+    await variableSleep(trialNumber);
+
+    //show open door
+    let goatOrCarString = trialResult.value ? 'selected_car' : 'selected_goat';
+    let goatOrCarClass = trialResult.value ? 'sim-car-switch' : 'sim-goat-switch';
+    changeDoor(trialResult.switchTo, goatOrCarString, goatOrCarClass)
+    
+    //sleep4
+    await variableSleep(trialNumber);
+    
+    //reset door images
+    changeDoor(trialResult.switchTo, 'closed', 'sim-door-switch');
+    changeDoor(trialResult.doorToReveal, 'closed', 'sim-door-switch');
+
+    //update chart
+    updateChart(processData(data), 'switch-line');
+
+    return data;
+}
+
+function runOneSwitchTrialLogic(){
     //set up doors
-    let simulationDoors = document.getElementsByClassName('sim-door');
+    let simulationDoors = document.getElementsByClassName('sim-door-switch');
     simulationDoorsArray = Array.from(simulationDoors);
     let simulationDoorContents = [1, 0, 0];
     
@@ -248,7 +305,6 @@ function runOneSwitchTrial(){
             break;
         } 
     }
-
     //get door to switch to
     for (var i=0; i<simulationDoorContents.length; i++){
         if (!([doorToRevealIndex, guess].includes(numstringToIndex[simulationDoorsArray[i].id]))){
@@ -257,54 +313,46 @@ function runOneSwitchTrial(){
         }
     }
 
-    
-
     return {
-        value: guess===winningIndex ? 1 : 0, 
+        value: otherDoorIndex===winningIndex ? 1 : 0, 
         selectedDoor: simulationDoorsArray[guess], 
         doorToReveal: simulationDoorsArray[doorToRevealIndex],
         switchTo: simulationDoorsArray[otherDoorIndex],
     };
 }
 
-async function runNoSwitchTrials(numTrials){
-    let data = [];
+async function runNoSwitchTrials(numTrials, data, trialNumber){
+    let trialResult = runOneNoSwitchTrialLogic();
+    let simSelectedDoor = trialResult.selectedDoor;
     
-    for (var i=1; i<=numTrials; i++){
-        let trialResult = runOneNoSwitchTrial();
-        let simSelectedDoor = trialResult.selectedDoor;
-        
-        data.push(trialResult.value);
-        
-        //show selected door
-        simSelectedDoor.setAttribute('src', 'images/door_' + simSelectedDoor.id + '_selected.png');
-        
-        //sleep1
-        i <= 5 ? await sleep(LONG_SLEEP) : await sleep(SHORT_SLEEP);
-        
-        //show open door
-        let goatOrCarString = trialResult.value ? 'selected_car' : 'selected_goat';
-        let goatOrCarClass = trialResult.value ? 'sim-car' : 'sim-goat';
-        changeDoor(simSelectedDoor, goatOrCarString, goatOrCarClass)
-        
-        //sleep2
-        i <= 5 ? await sleep(LONG_SLEEP) : await sleep(SHORT_SLEEP);
-        
-        //reset door images
-        changeDoor(simSelectedDoor, 'closed', 'sim-door');
+    data.push(trialResult.value);
+    
+    //show selected door
+    changeDoor(simSelectedDoor, 'selected');
+    
+    //sleep1
+    await variableSleep(trialNumber);
+    
+    //show open door
+    let goatOrCarString = trialResult.value ? 'selected_car' : 'selected_goat';
+    let goatOrCarClass = trialResult.value ? 'sim-car-stay' : 'sim-goat-stay';
+    changeDoor(simSelectedDoor, goatOrCarString, goatOrCarClass)
+    
+    //sleep2
+    await variableSleep(trialNumber);
+    
+    //reset door images
+    changeDoor(simSelectedDoor, 'closed', 'sim-door-stay');
 
-         //update chart
-         updateChart(processData(data));
-    }
+    //update chart
+    updateChart(processData(data), 'no-switch-line');
 
-    addFinalResultLine(processData(data)[data.length - 1]);
-    document.getElementById('start_simulation').addEventListener('click', startSimulation);
-    document.getElementById('start_simulation').innerHTML = "Run Again";   
+    return data 
 }
 
-function runOneNoSwitchTrial(){
+function runOneNoSwitchTrialLogic(){
     //set up doors
-    let simulationDoors = document.getElementsByClassName('sim-door');
+    let simulationDoors = document.getElementsByClassName('sim-door-stay');
     simulationDoorsArray = Array.from(simulationDoors);
     let simulationDoorContents = [1, 0, 0];
     
@@ -336,13 +384,14 @@ function processData(data){
     });
 }
 
-function addNoSwitchGuess(trialNumber){
+function addGuessLine(trialNumber){
     //get form input
     let noSwitchGuess = document.getElementById('no_switch_guess').value;
     
     svg.append("line")
         .attr('class', 'guess')
-		.style("stroke", "red")  // color the line
+        .style("stroke", "red")  // color the line
+        .style("stroke-width", 2)
         .attr("x1", x(1)) 
         .attr("y1", y(noSwitchGuess))  
         .attr("x2", x(10))  
@@ -356,11 +405,12 @@ function addNoSwitchGuess(trialNumber){
         .text("Your Guess: " + noSwitchGuess + "%");
 }
 
-function addFinalResultLine(finalResult){
+function addFinalResultLine(finalResult, strategy){
     console.log(finalResult)
     svg.append("line")
-        .attr('id', 'guess')
+        .attr('class', 'guess')
         .style("stroke", "green")  // color the line
+        .style("stroke-width", 2)
         .attr("x1", x(1)) 
         .attr("y1", y(finalResult.value))  
         .attr("x2", x(finalResult.trialNumber))  
@@ -370,21 +420,21 @@ function addFinalResultLine(finalResult){
         .attr("y", y(finalResult.value) - 10) //magic number here
         .attr("x", x(finalResult.trialNumber) - 160)
         .attr('text-anchor', 'right')
-        .attr("id", "guess-label")
-        .text("Simulation Result: " + Math.round(finalResult.value,1) + "%");
+        .attr("class", "guess-label")
+        .text(strategy + " Result: " + Math.round(finalResult.value,1) + "%");
 }
 
 function removeFinalResultLine(){
-    d3.select('#guess').remove();
-    d3.select('#guess-label').remove();
+    d3.selectAll('.guess').remove();
+    d3.selectAll('.guess-label').remove();
 }
 
-function updateChart(data){
+function updateChart(data, line){
     let trialNumber = data[data.length-1].trialNumber;
     
     var	margin = {top: 30, right: 10, bottom: 20, left: 50},
         width = 600 - margin.left - margin.right,
-        height = 450 - margin.top - margin.bottom;
+        height = 250 - margin.top - margin.bottom;
 
     if(trialNumber>10){
         x.domain(d3.extent(data, function(d) { return d.trialNumber; }));
@@ -392,12 +442,11 @@ function updateChart(data){
         x.domain([1,10]);
     }
     
-
     // Select the section we want to apply our changes to
     var svg = d3.select("#chart").transition();
 
     // Make the changes
-        svg.select(".line")   // change the line
+        svg.select('#'+line)   // change the line passed in
             .attr("d", valueline(data));
         svg.select(".x.axis") // change the x axis
             // .duration(750)
@@ -418,8 +467,8 @@ function updateChart(data){
 var data = [];
 
 // Set the dimensions of the canvas / graph
-var	margin = {top: 30, right: 10, bottom: 20, left: 50},
-    width = 600 - margin.left - margin.right,
+var	margin = {top: 30, right: 30, bottom: 30, left: 50},
+    width = 700 - margin.left - margin.right,
     height = 250 - margin.top - margin.bottom;
 
 // Set the ranges
@@ -453,7 +502,13 @@ var	svg = d3.select("#chart")
     // Add the valueline path.
     svg.append("path")
         .attr("class", "line")
+        .attr("id", "no-switch-line")
         .attr("d", valueline(data));
+    
+    svg.append("path")
+        .attr("class", "line")
+        .attr("id", "switch-line")
+        .attr("d", valueline(data))
 
     // Add the X Axis
     svg.append("g")	
@@ -465,3 +520,4 @@ var	svg = d3.select("#chart")
     svg.append("g")
         .attr("class", "y axis")
         .call(yAxis);
+

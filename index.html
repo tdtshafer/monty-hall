@@ -90,7 +90,20 @@
         background: #f0e68c;
         margin-bottom: 3%;
         margin-left: 3%;
+        align-content: center;
+        display: block;
     }
+
+    .row_of_doors_sim {
+        width: 60%;
+        margin: 0 auto;
+        background: #f0e68c;
+        margin-bottom: 3%;
+        margin-left: 15%;
+        align-content: center;
+        display: block;
+    }
+
     .door {
         width: 20%;
         padding: 6%;
@@ -122,12 +135,16 @@
     }
     
     /* simulation below */
-    .sim-door {
+    .sim-door-switch, 
+    .sim-door-stay {
         width: 8%;
         padding: 2%;
         background: #da4747;
-        
+        display: inline;
+        margin-left: 2%;
+        margin-bottom: 2%;
     }
+
 
     .start_simulation{
         width: 30%;
@@ -141,20 +158,26 @@
         font-size: 120%;
     }
 
-    .sim-goat {
+    .sim-goat-stay,
+    .sim-goat-switch {
         width: 9.5%;
         padding-top: 2%;
         padding-right: 2%;
         background: #632727;
         padding-bottom: 0.5%;
+        margin-left: 2%;
+        margin-bottom: 2%;
     }
 
-    .sim-car {
+    .sim-car-stay,
+    .sim-car-switch {
         width: 9.5%;
         padding-top: 2%;
         padding-left: 2%;
         background: #632727;
         padding-bottom: 0.5%;
+        margin-left: 2%;
+        margin-bottom: 2%;
     }
     /* .game_simulator {
         width: 100%;
@@ -167,7 +190,7 @@
 
     .chart {
       width: 70%;
-      display: inline;
+      display: block;
     }
 
     path { 
@@ -176,13 +199,33 @@
       fill: none;
     }
 
+    #switch-line {
+      stroke: slateblue;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    #no-switch-line {
+      stroke: orange;
+      stroke-width: 2;
+      fill: none;
+    }
+
     .axis path,
     .axis line {
       fill: none;
       stroke: grey;
-      stroke-width: 1;
+      stroke-width: 2;
       shape-rendering: crispEdges;
+
     }
+    
+    .divider{
+      display: inline;
+      width: 5%;
+      height: 20px;
+    }
+
 </style>
 </head>
 
@@ -197,7 +240,7 @@
 <div>
     <div name="interactive_text_area" class="interactive_text_area">
         <p name="long_dialog" class="long_dialog">
-            The late Monty Hall hosted several gameshows throughout his long career, most notably Let's Make a deal. 
+            The late Monty Hall hosted several gameshows throughout his long career, most notably Let's Make a Deal. 
             In one game, he presented contestants with three doors. One of them hid a car while the other two had goats behind them.
             Part way through the game, Hall would reveal some information and offer the contestant a chance to change their guess.
             Let's see how it works.
@@ -225,11 +268,11 @@
             <h2>Analysis</h2>
             <p class="long_dialog">
               Remember when you had the opportunity to change your guess? Does that matter?
-              It seems like your guess was arbitrary anyway, so why would it help to switch?
-              Let's run a larger number of simulations and find out.
-              We'll start with a contestant who never switches.
+              We can deduce that a random guess at three doors will give us a 1/3 chance of winning,
+              but what about if we decide to switch?
+              Let's simulate a contestant that plays 100 games and always switches to find out.
               <form class="long_dialog">
-                  How often will a contestant win that doesn't switch? (0 to 100):
+                  Guess the win percentage of a contestant that switches every time (0 to 100):
                   <input id="no_switch_guess" type="number" name="quantity" min="0" max="100" value="50">
               </form>
             </p>
@@ -238,10 +281,16 @@
             <button id="start_simulation" class="start_simulation">Let's Find Out!</button>
         </div>
         <div id="game_simulator">
-            <div>
-              <img id="one" src="images/door_one_closed.png" alt="Door One: closed" class="sim-door"/>
-              <img id="two" src="images/door_two_closed.png" alt="Door Two: closed" class="sim-door"/>
-              <img id="three" src="images/door_three_closed.png" alt="Door Three: closed" class="sim-door"/>
+            <div class="row_of_doors_sim">
+              <img id="switch_character" src="images/switch_before.png" alt="Purple Switch Character" class="switch-character"/>
+              <img id="one" src="images/door_one_closed.png" alt="Door One: closed" class="sim-door-switch"/>
+              <img id="two" src="images/door_two_closed.png" alt="Door Two: closed" class="sim-door-switch"/>
+              <img id="three" src="images/door_three_closed.png" alt="Door Three: closed" class="sim-door-switch"/>
+              <div id="divider"><br></div>
+              <img id="stay-character" src="images/stay_before.png" alt="Orange Stay Character" class="stay-character"/>
+              <img id="one" src="images/door_one_closed.png" alt="Door One: closed" class="sim-door-stay"/>
+              <img id="two" src="images/door_two_closed.png" alt="Door Two: closed" class="sim-door-stay"/>
+              <img id="three" src="images/door_three_closed.png" alt="Door Three: closed" class="sim-door-stay"/>
             </div>
             <div id="chart" class="chart"></div>
         </div>
