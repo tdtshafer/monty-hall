@@ -106,13 +106,12 @@ function revealOneWrongAnswer(){
         }
     }
     doorToReveal = doors[indexToReveal];
-    changeDoor(doorToReveal, 'goat', 'goat-door')
+    changeDoor(doorToReveal, 'goat')
     updateCommand('Door ' + doorToReveal.id + ' contains a goat');
 }
 
 async function promptSwitch(){
-    await sleep(200); //2000
-    console.log('here')
+    await sleep(2000); //2000
     updateCommand('Would you like to change your guess?');
     showButton('switch_button_container');
     document.getElementById('yes_switch').innerHTML = "Switch to door " + getOtherDoor().id;
@@ -159,11 +158,11 @@ function theBigReveal(){
     let otherDoor = doorsArray[numstringToIndex[getOtherDoor().id]];
 
     if(winningIndex===doorSelectedIndex){
-        changeDoor(winningDoor, 'selected_car', 'car-door');
-        changeDoor(otherDoor, 'goat', 'goat-door');
+        changeDoor(winningDoor, 'selected_car');
+        changeDoor(otherDoor, 'goat');
     } else {
-        changeDoor(selectedDoor, 'selected_goat', 'goat-door');
-        changeDoor(otherDoor, 'car', 'car-door');
+        changeDoor(selectedDoor, 'selected_goat');
+        changeDoor(otherDoor, 'car');
     }
     updateCommand(winningIndex===doorSelectedIndex ? "Congratulations! You won!" : "No luck this time!");
     hideButton('open_button');
@@ -257,29 +256,32 @@ async function runSwitchTrials(numTrials, data, inverseData, trialNumber){
     await variableSleep(trialNumber);
     
     //reveal one wrong answer
-    changeDoor(trialResult.doorToReveal, 'goat', 'sim-goat-switch');
+    changeDoor(trialResult.doorToReveal, 'goat');
 
     //sleep2
     await variableSleep(trialNumber);
 
     //switch guess
-    changeDoor(simSelectedDoor, 'closed');
-    changeDoor(trialResult.switchTo, 'selected');
+    changeDoor(simSelectedDoor, 'selected_orange');
+    changeDoor(trialResult.switchTo, 'selected_purple');
 
     //sleep3
     await variableSleep(trialNumber);
 
     //show open door
-    let goatOrCarString = trialResult.value ? 'selected_car' : 'selected_goat';
-    let goatOrCarClass = trialResult.value ? 'sim-car-switch' : 'sim-goat-switch';
-    changeDoor(trialResult.switchTo, goatOrCarString, goatOrCarClass)
+    let switchGoatOrCarString = trialResult.value ? 'selected_car_purple' : 'selected_goat_purple';
+    changeDoor(trialResult.switchTo, switchGoatOrCarString);
+
+    let stayGoatOrCarString = trialResult.value ? 'selected_goat_orange': 'selected_car_orange';
+    changeDoor(simSelectedDoor, stayGoatOrCarString);
     
     //sleep4
     await variableSleep(trialNumber);
     
     //reset door images
-    changeDoor(trialResult.switchTo, 'closed', 'sim-door-switch');
-    changeDoor(trialResult.doorToReveal, 'closed', 'sim-door-switch');
+    changeDoor(trialResult.switchTo, 'closed');
+    changeDoor(trialResult.doorToReveal, 'closed');
+    changeDoor(simSelectedDoor, 'closed');
 
     //update chart
     // updateChart(processData(data), 'switch-line');
@@ -289,7 +291,7 @@ async function runSwitchTrials(numTrials, data, inverseData, trialNumber){
 
 function runOneSwitchTrialLogic(){
     //set up doors
-    let simulationDoors = document.getElementsByClassName('sim-door-switch');
+    let simulationDoors = document.getElementsByClassName('sim-door');
     simulationDoorsArray = Array.from(simulationDoors);
     let simulationDoorContents = [1, 0, 0];
     
@@ -340,14 +342,13 @@ async function runNoSwitchTrials(numTrials, data, trialNumber){
     
     //show open door
     let goatOrCarString = trialResult.value ? 'selected_car' : 'selected_goat';
-    let goatOrCarClass = trialResult.value ? 'sim-car-stay' : 'sim-goat-stay';
-    changeDoor(simSelectedDoor, goatOrCarString, goatOrCarClass)
+    changeDoor(simSelectedDoor, goatOrCarString)
     
     //sleep2
     await variableSleep(trialNumber);
     
     //reset door images
-    changeDoor(simSelectedDoor, 'closed', 'sim-door-stay');
+    changeDoor(simSelectedDoor, 'closed');
 
     //update chart
     updateChart(processData(data), 'no-switch-line');
@@ -357,7 +358,7 @@ async function runNoSwitchTrials(numTrials, data, trialNumber){
 
 function runOneNoSwitchTrialLogic(){
     //set up doors
-    let simulationDoors = document.getElementsByClassName('sim-door-stay');
+    let simulationDoors = document.getElementsByClassName('sim-door');
     simulationDoorsArray = Array.from(simulationDoors);
     let simulationDoorContents = [1, 0, 0];
     
