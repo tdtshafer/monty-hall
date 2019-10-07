@@ -228,22 +228,27 @@ async function alternateTrials(numberOfTrials){
     var switchData = [];
     var noSwitchData = [];
     for (var i=1; i<=numberOfTrials; i++){
-        switchData = await runSwitchTrials(1, switchData, i);
-        noSwitchData = await runNoSwitchTrials(1, noSwitchData, i);
+        switchData = await runSwitchTrials(1, switchData, noSwitchData, i);
+        updateChart(processData(switchData), 'switch-line');
+        updateChart(processData(noSwitchData), 'no-switch-line');
+        // noSwitchData = await runNoSwitchTrials(1, noSwitchData, i);
     }
     addFinalResultLine(processData(switchData)[switchData.length - 1], 'Switch');
-    addFinalResultLine(processData(noSwitchData)[noSwitchData.length - 1], 'No switch');
+
+    // addFinalResultLine(processData(noSwitchData)[noSwitchData.length - 1], 'No switch');
+    
     document.getElementById('start_simulation').addEventListener('click', startSimulation);
     document.getElementById('start_simulation').innerHTML = "Run Again"; 
 }
 
-async function runSwitchTrials(numTrials, data, trialNumber){
+async function runSwitchTrials(numTrials, data, inverseData, trialNumber){
     let trialResult = runOneSwitchTrialLogic();
     console.log(trialResult);
     
     let simSelectedDoor = trialResult.selectedDoor;
     
     data.push(trialResult.value);
+    inverseData.push(trialResult.value ? 0 : 1);
     
     //show selected door
     changeDoor(simSelectedDoor, 'selected');
@@ -277,7 +282,7 @@ async function runSwitchTrials(numTrials, data, trialNumber){
     changeDoor(trialResult.doorToReveal, 'closed', 'sim-door-switch');
 
     //update chart
-    updateChart(processData(data), 'switch-line');
+    // updateChart(processData(data), 'switch-line');
 
     return data;
 }
