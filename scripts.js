@@ -83,7 +83,7 @@ async function doorListener(e){
 
     updateCommand("You chose door " + doorNumber);
 
-    await sleep(200); //2000
+    await sleep(1000);
 
     revealOneWrongAnswer();
     promptSwitch();
@@ -113,7 +113,8 @@ function revealOneWrongAnswer(){
 async function promptSwitch(){
     await sleep(2000); //2000
     updateCommand('Would you like to change your guess?');
-    showButton('switch_button_container');
+    showButton('yes_switch');
+    showButton('no_switch');
     document.getElementById('yes_switch').innerHTML = "Switch to door " + getOtherDoor().id;
     document.getElementById('no_switch').innerHTML = "Stick with door " + doorSelectedText;
 }
@@ -138,16 +139,17 @@ function switchConfirmed(){
 
     doorSelectedIndex = numstringToIndex[switchTo.id];
     doorSelectedText = switchTo.id;
-    hideButton('switch_button_container');
-    showButton('play_again_container');
+    collapseDiv('yes_switch');
+    collapseDiv('no_switch');
+    restoreDiv('open_button', 'initial');
     showButton('open_button');
     updateCommand("You switched to door " + switchTo.id);
 }
 
 function switchRejected(){
-    hideButton('yes_switch');
-    hideButton('no_switch');
-    showButton('play_again_container');
+    collapseDiv('yes_switch');
+    collapseDiv('no_switch');
+    restoreDiv('open_button', 'initial');
     showButton('open_button');
     updateCommand("You stuck with door " + doorSelectedText);
 }
@@ -166,6 +168,8 @@ function theBigReveal(){
     }
     updateCommand(winningIndex===doorSelectedIndex ? "Congratulations! You won!" : "No luck this time!");
     hideButton('open_button');
+    collapseDiv('open_button');
+    restoreDiv('play_again', 'inline');
     showButton('play_again');
 }
 
@@ -176,10 +180,13 @@ function resetGame(){
     randomizeDoors();
     updateCommand('Choose a door');
     hideButton('play_again');
-    hideButton('switch_button_container');
-    showButton('yes_switch', 'inline');
-    showButton('no_switch', 'inline');
-    hideButton('switch_button_container');
+    collapseDiv('play_again');
+    showButton('yes_switch');
+    showButton('no_switch');
+    restoreDiv('yes_switch', 'inline');
+    restoreDiv('no_switch', 'inline');
+    hideButton('yes_switch');
+    hideButton('no_switch');
     setupGame();
 }
 
@@ -188,12 +195,20 @@ function updateCommand(string){
     commands.innerHTML = string;
 }
 
-function showButton(buttonId, displayType='block'){
-    document.getElementById(buttonId).style.display = displayType;
+function showButton(buttonId){
+    document.getElementById(buttonId).style.visibility = 'visible';
 }
 
 function hideButton(buttonId){
+    document.getElementById(buttonId).style.visibility = 'hidden';
+}
+
+function collapseDiv(buttonId){
     document.getElementById(buttonId).style.display = 'none';
+}
+
+function restoreDiv(buttonId, displayType){
+    document.getElementById(buttonId).style.display = displayType;
 }
 
 function sleep(ms) {
@@ -250,7 +265,7 @@ async function runSwitchTrials(numTrials, data, inverseData, trialNumber){
     inverseData.push(trialResult.value ? 0 : 1);
     
     //show selected door
-    changeDoor(simSelectedDoor, 'selected');
+    changeDoor(simSelectedDoor, 'selected_mixed');
     
     //sleep1
     await variableSleep(trialNumber);

@@ -7,21 +7,21 @@
   <meta name="description" content="An interactive look at the classic logic puzzle">
   <style type="text/css">
     .collage-container{
-        width: 95%;
+        width: 60%;
         margin: 0 auto;
         margin-bottom: 0px;
-        background: greenyellow;
-        display: inline-block;
+        display: block;
     }
     .collage{
-        width: 100%;
+        width: 90%;
+        margin-left: 5%
     }
     .headline-container {
         width: 80%;
         margin: 0 auto;
         margin-top: 0px;
         margin-left: 10%;
-        background: #ca7321;
+        /* background: #ca7321; */
         font-size: 220%;
         display: inline-block;
         padding: 0px;
@@ -31,41 +31,46 @@
       vertical-align: top;
       padding: 0px;
     }
-    .interactive_text_area{
+
+    .interactive_text_area,
+    #analysis {
         width: 80%;
         margin: 0 auto;
-        background: rebeccapurple;
+        /* background: rebeccapurple; */
     }
 
     .long_dialog{
       font-size: 150%;
     }
 
+
     .switch_button_container{
-        width: 100%;
+        width: 60%;
         margin: 0 auto;
-        background: blueviolet;
-        display: none;
-        padding: 1%;
+        /* background: blueviolet; */
+        display: flex;
+        justify-content: space-evenly;
     }
     
     .switch_button{
-        width: 20%;
+        width: 35%;
         height: 55px;
         margin: 0 auto;
+        margin-top: 2%;
         fill: gainsboro;
         border-radius: 5px;
         background-color: rgb(48, 48, 48);
         color: white;
         border: none;
         font-size: 120%;
-        margin-left: 20%
+        visibility: hidden;
     }
 
     .open_button{
-        width: 30%;
+        width: 35%;
         height: 55px;
         margin: 0 auto;
+        margin-top: 2%;
         fill: gainsboro;
         border-radius: 5px;
         background-color: rgb(48, 48, 48);
@@ -75,72 +80,88 @@
         display: none;
     }
 
-
-    .play_button_container{
-        width: 80%;
-        margin: 0 auto;
-        background: blueviolet;
-        display: none;
-        padding: 1%;
-    }
-
     .row_of_doors {
-        width: 100%;
-        margin: 0 auto;
+        width: 80%;
         background: #f0e68c;
-        margin-bottom: 3%;
-        margin-left: 3%;
-        align-content: center;
-        display: block;
+        /* align-content: center; */
+        display: flex;
+        justify-content: space-evenly;
     }
 
     .row_of_doors_sim {
-        width: 60%;
+        width: 80%;
         margin: 0 auto;
-        background: #f0e68c;
+        /* background: #f0e68c; */
         margin-bottom: 3%;
-        margin-left: 15%;
         align-content: center;
-        display: block;
+        display: flex;
+        padding-top: 0px;
     }
 
-    .door {
+    /* .door {
         width: 20%;
-        padding: 6%;
         background: #da4747;
-    }
+    } */
 
     .text_commands {
         font-size: 220%;
         margin-top: 0px;
         margin: 0 auto;
-        background: #1c2899;
+        /* background: #1c2899; */
         width: 80%;
         text-align: center;
         display: block;
     }
     
+    .switch-figure,
+    .stay-figure{
+        margin-top: 20%;
+        width: 20%;
+        /* background: #da4747; */
+        display: inline-block;
+        
+    }
+
     /* simulation below */
+    .door,
     .sim-door{
-        width: 8%;
-        padding: 2%;
-        background: #da4747;
+        width: 30%;
+        /* background: #da4747; */
         display: inline;
-        margin-left: 2%;
-        margin-bottom: 2%;
     }
 
 
     .start_simulation{
-        width: 30%;
+        width: 60%;
         height: 55px;
-        margin: 0 auto;
+        margin-top: 0px;
+        margin-left: 20%;
         fill: gainsboro;
         border-radius: 5px;
         background-color: rgb(48, 48, 48);
         color: white;
         border: none;
         font-size: 120%;
+        display: inline;
+    }
+
+    .sim_doors_and_button{
+      display: block;
+      width: 60%;
+      /* background-color: goldenrod; */
+      margin-top: 0%;
+      padding-top: 0px;
+    }
+
+    .sim_doors_and_button#first-doors{
+      margin-left: 20%;
+    }
+
+    .small_doors{
+      margin-top: 5%;
+      display: flex;
+      justify-content: space-evenly;
+      /* background-color: aqua; */
     }
 
     /* .game_simulator {
@@ -153,8 +174,9 @@
     } */
 
     .chart {
-      width: 70%;
+      width: 80%;
       display: block;
+      margin-left: 5%
     }
 
     path { 
@@ -216,17 +238,23 @@
     <div id="switch_button_container" class="switch_button_container">
         <button id="yes_switch" class="switch_button">Yes</button>
         <button id="no_switch" class="switch_button">No</button>
-        
-    </div>
-    <div id="play_again_container" class="play_again_container">
         <button id="open_button" class="open_button">Open all the doors!</button>
         <button id="play_again" class="open_button">Play again?</button>
     </div>
-    <div name="row_of_doors" class="row_of_doors">
+    <div class="row_of_doors_sim">
+        <div id="first-doors" class="sim_doors_and_button">
+            <div class="small_doors">
+                <img id="one" src="images/door_one_closed.png" alt="Door One: closed" class="door"/>
+                <img id="two" src="images/door_two_closed.png" alt="Door Two: closed" class="door"/>
+                <img id="three" src="images/door_three_closed.png" alt="Door Three: closed" class="door"/>
+            </div>
+        </div>
+    </div>
+    <!-- <div name="row_of_doors" class="row_of_doors">
         <img id="one" src="images/door_one_closed.png" alt="Door One: closed" class="door"/>
         <img id="two" src="images/door_two_closed.png" alt="Door Two: closed" class="door"/>
         <img id="three" src="images/door_three_closed.png" alt="Door Three: closed" class="door"/>
-    </div>
+    </div> -->
     <div id="simulation_and_analysis">
         <div id="analysis">
             <h2>Analysis</h2>
@@ -241,20 +269,18 @@
               </form>
             </p>
         </div>
-        <div>
-            <button id="start_simulation" class="start_simulation">Let's Find Out!</button>
-        </div>
         <div id="game_simulator">
             <div class="row_of_doors_sim">
-              <img id="switch_character" src="images/switch_before.png" alt="Purple Switch Character" class="switch-character"/>
-              <img id="one" src="images/door_one_closed.png" alt="Door One: closed" class="sim-door"/>
-              <img id="two" src="images/door_two_closed.png" alt="Door Two: closed" class="sim-door"/>
-              <img id="three" src="images/door_three_closed.png" alt="Door Three: closed" class="sim-door"/>
-              <div id="divider"><br></div>
-              <img id="stay-character" src="images/stay_before.png" alt="Orange Stay Character" class="stay-character"/>
-              <!-- <img id="one" src="images/door_one_closed.png" alt="Door One: closed" class="sim-door-stay"/>
-              <img id="two" src="images/door_two_closed.png" alt="Door Two: closed" class="sim-door-stay"/>
-              <img id="three" src="images/door_three_closed.png" alt="Door Three: closed" class="sim-door-stay"/> -->
+              <img id="switch_character" src="images/switch_figure.png" alt="Purple Switch Character" class="switch-figure"/>
+              <div class="sim_doors_and_button">
+                  <button id="start_simulation" class="start_simulation">Let's Find Out!</button>
+                  <div class="small_doors">
+                      <img id="one" src="images/door_one_closed.png" alt="Door One: closed" class="sim-door"/>
+                      <img id="two" src="images/door_two_closed.png" alt="Door Two: closed" class="sim-door"/>
+                      <img id="three" src="images/door_three_closed.png" alt="Door Three: closed" class="sim-door"/>
+                  </div>
+              </div>
+            <img id="stay-character" src="images/stay_figure.png" alt="Orange Stay Character" class="stay-figure"/>
             </div>
             <div id="chart" class="chart"></div>
         </div>
