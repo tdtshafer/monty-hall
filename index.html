@@ -33,13 +33,15 @@
     }
 
     .interactive_text_area,
+    #simulation,
     #analysis {
         width: 80%;
         margin: 0 auto;
         /* background: rebeccapurple; */
     }
 
-    .long_dialog{
+    .long_dialog,
+    p, ul {
       font-size: 150%;
     }
 
@@ -250,14 +252,9 @@
             </div>
         </div>
     </div>
-    <!-- <div name="row_of_doors" class="row_of_doors">
-        <img id="one" src="images/door_one_closed.png" alt="Door One: closed" class="door"/>
-        <img id="two" src="images/door_two_closed.png" alt="Door Two: closed" class="door"/>
-        <img id="three" src="images/door_three_closed.png" alt="Door Three: closed" class="door"/>
-    </div> -->
-    <div id="simulation_and_analysis">
-        <div id="analysis">
-            <h2>Analysis</h2>
+    <div id="simulation_container">
+        <div id="simulation">
+            <h2>Simulation</h2>
             <p class="long_dialog">
               Remember when you had the opportunity to change your guess? Does that matter?
               We can deduce that a random guess at three doors will give us a 1/3 chance of winning,
@@ -284,6 +281,29 @@
             </div>
             <div id="chart" class="chart"></div>
         </div>
+    </div>
+    <div id="analysis">
+        <h2>Analysis</h2>
+        <p>
+          As you can see over many trials, there is a long-term advantage to the contestant that
+          chooses to switch every game....but why? It seems like your odds shouldn't change, since 
+          the unopened door you can switch to is still a random guess. Let's looks a little closer.
+        </p>
+        <p>
+          Before the host opens the first door and reveals a goat, it's pretty clear that the 
+          contestant has a 1/3 chance of winning - since they must guess randomly at three doors.
+          After the goat is revealed, there are now only two closed doors - one that wins and one
+          that loses. So there are now two possible places for the car to be: behind the original 
+          selction or behind the switch candidate.
+
+          Let's consider the four possible outcomes:
+        </p>
+        <ul id="outcomes-list">
+          <li>Switch and win - original choice was wrong</li>
+          <li>Switch and lose - original choice was right</li>
+          <li>Stay and win - original choice was right</li>
+          <li>Stay and lose - original choice was wrong</li>
+        </ul>
     </div>
 </div>
 <!-- load the d3.js library -->	
