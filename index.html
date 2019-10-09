@@ -82,6 +82,8 @@
         display: none;
     }
 
+   
+
     .row_of_doors {
         width: 80%;
         background: #f0e68c;
@@ -174,6 +176,47 @@
         margin-left: 3%;
         padding-left: 10%;
     } */
+
+    ul{
+      display: inline;
+      width: 40%;
+    }
+
+    #table-container{
+      display: flex;
+      margin: 0 auto;
+      background-color: aqua;
+    }
+    
+    #table-button-container{
+      display: block;
+      width: 30 %;
+      background-color: red;
+      align-items: left;
+      justify-items: stretch;
+      margin-top: 10%;
+      
+    }
+
+    .table-button{
+        /* width: 35%; */
+        height: 55px;
+        margin: 0 auto;
+        margin-top: 2%;
+        fill: gainsboro;
+        border-radius: 5px;
+        background-color: rgb(48, 48, 48);
+        color: white;
+        border: none;
+        font-size: 120%;
+        display: block; 
+        
+    }
+
+    .table {
+      width: 50%;
+      margin: 0 auto;
+    }
 
     .chart {
       width: 80%;
@@ -298,13 +341,25 @@
 
           Let's consider the four possible outcomes:
         </p>
-        <ul id="outcomes-list">
+        <!-- <ul id="outcomes-list">
           <li>Switch and win - original choice was wrong</li>
           <li>Switch and lose - original choice was right</li>
           <li>Stay and win - original choice was right</li>
           <li>Stay and lose - original choice was wrong</li>
-        </ul>
+        </ul> -->
+        <div id="table-container">
+          <div id="table-button-container">
+              <button id="show-text-button" class="table-button">Show Text</button>
+              <button id="show-percentages-button" class="table-button">Show Percentages</button>
+          </div>
+            <img id="outcomes-table" src="images/table_with_text.png" alt="Data table with text" class="table"/>
+        </div>
+        <p>
+          From this table we can deduce the probability of each outcome because we already know 
+          the chance that our original guess was correct.
+        </p>
     </div>
+    
 </div>
 <!-- load the d3.js library -->	
 <script src="http://d3js.org/d3.v3.min.js"></script>

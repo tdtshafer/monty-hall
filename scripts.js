@@ -37,6 +37,8 @@ function setupGame() {
     document.getElementById('open_button').addEventListener('click', theBigReveal);
     document.getElementById('play_again').addEventListener('click', resetGame);
     document.getElementById('start_simulation').addEventListener('click', startSimulation);
+    document.getElementById('show-text-button').addEventListener('click', showTextHandler);
+    document.getElementById('show-percentages-button').addEventListener('click', showPercentagesHandler);
 };  
 
 function formatDoorString(string, doorNumber, doorState){
@@ -214,6 +216,19 @@ function restoreDiv(buttonId, displayType){
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
+
+
+function showTextHandler(){
+    let table = document.getElementById('outcomes-table')
+    table.setAttribute('alt', 'Table with text');
+    table.setAttribute('src', 'images/table_with_text.png');
+}
+
+function showPercentagesHandler(){
+    let table = document.getElementById('outcomes-table')
+    table.setAttribute('alt', 'Table with percentages');
+    table.setAttribute('src', 'images/table_with_numbers.png');
+}
 
 //analysis stuff
 
