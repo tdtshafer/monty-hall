@@ -504,8 +504,8 @@ var data = [];
 
 // Set the dimensions of the canvas / graph
 var	margin = {top: 30, right: 30, bottom: 30, left: 50},
-    width = 700 - margin.left - margin.right,
-    height = 250 - margin.top - margin.bottom;
+    width = 800 - margin.left - margin.right,
+    height = 350 - margin.top - margin.bottom;
 
 // Set the ranges
 var	x = d3.scale.linear().range([0, width]);
@@ -526,8 +526,11 @@ var	valueline = d3.svg.line()
 // Adds the svg canvas
 var	svg = d3.select("#chart")
     .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", "-90 -50 1000 750")
+        .classed("svg-content", true)
+        // .attr("width", width + margin.left + margin.right)
+        // .attr("height", height + margin.top + margin.bottom)
     .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 

@@ -257,6 +257,21 @@
       height: 20px;
     }
 
+    .svg-container {
+      display: inline-block;
+      position: relative;
+      width: 100%;
+      padding-bottom: 40%;
+      vertical-align: top;
+      overflow: hidden;
+    }
+    .svg-content {
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
 </style>
 </head>
 
@@ -322,7 +337,7 @@
               </div>
             <img id="stay-character" src="images/stay_figure.png" alt="Orange Stay Character" class="stay-figure"/>
             </div>
-            <div id="chart" class="chart"></div>
+            <div id="chart" class="svg-container"></div>
         </div>
     </div>
     <div id="analysis">
@@ -351,12 +366,12 @@
 
           Let's consider the four possible outcomes:
         </p>
-        <!-- <ul id="outcomes-list">
-          <li>Switch and win - original choice was wrong</li>
-          <li>Switch and lose - original choice was right</li>
-          <li>Stay and win - original choice was right</li>
-          <li>Stay and lose - original choice was wrong</li>
-        </ul> -->
+        <ul id="outcomes-list">
+          <li>Switch and win</li>
+          <li>Switch and lose</li>
+          <li>Stay and win</li>
+          <li>Stay and lose</li>
+        </ul>
         <div id="table-container">
           <div id="table-button-container">
               <button id="show-text-button" class="table-button">Show Text</button>
