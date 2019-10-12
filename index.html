@@ -22,29 +22,30 @@
         margin-top: 0px;
         margin-left: 10%;
         /* background: #ca7321; */
-        font-size: 220%;
+        font-size: 180%;
         display: inline-block;
-        padding: 0px;
+        padding-top: 0px;
     }
 
     .headline{
       vertical-align: top;
       padding: 0px;
+      margin: 0 auto;
     }
 
     .interactive_text_area,
     #simulation,
-    #analysis {
+    #analysis,
+    #about_container {
         width: 80%;
         margin: 0 auto;
         /* background: rebeccapurple; */
     }
 
     .long_dialog,
-    p, ul {
+    p, ul, ol {
       font-size: 150%;
     }
-
 
     .switch_button_container{
         width: 60%;
@@ -82,8 +83,6 @@
         display: none;
     }
 
-   
-
     .row_of_doors {
         width: 80%;
         background: #f0e68c;
@@ -96,7 +95,7 @@
         width: 80%;
         margin: 0 auto;
         /* background: #f0e68c; */
-        margin-bottom: 3%;
+        margin-bottom: 2%;
         align-content: center;
         display: flex;
         padding-top: 0px;
@@ -176,6 +175,14 @@
         margin-left: 3%;
         padding-left: 10%;
     } */
+
+  input{
+    width: 9%;
+    padding-left: 10px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    font-size: 70%;
+  }
 
     ul{
       display: inline;
@@ -276,24 +283,27 @@
 </head>
 
 <body>
-
-  <div id="collage-container">
-      <img id="collage" src="images/monty-hall-collage.png" alt="Collage of host Monty Hall" class="collage"/>
-  </div>
-  <div class="headline-container">
-    <h1 class="headline">The Monty Hall Problem</h1>
-  </div>
-<div>
+  <div>
+    <div id="collage-container">
+        <img id="collage" src="images/monty-hall-collage.png" alt="Collage of host Monty Hall" class="collage"/>
+    </div>
+    <div class="headline-container">
+      <h1 class="headline">The Monty Hall Problem</h1>
+    </div>
     <div name="interactive_text_area" class="interactive_text_area">
-        <p name="long_dialog" class="long_dialog">
+      <p>
+        Welcome to the show, contestant!  
+        You have the chance to win a new car - but only if you can guess which door it's behind.
+      </p>
+        <!-- <p name="long_dialog" class="long_dialog">
             The late Monty Hall hosted several gameshows throughout his long career, most notably Let's Make a Deal. 
             In one game, he presented contestants with three doors. One of them hid a car while the other two had goats behind them.
             Part way through the game, Hall would reveal some information and offer the contestant a chance to change their guess.
             Let's see how it works.
-        </p>
+        </p> -->
     </div>
     <div name="short_dialog" class="text_commands_container">
-        <h4 id="text_commands" class="text_commands">Choose a door</h4>
+        <h4 id="text_commands" class="text_commands">pick a door</h4>
     </div>
     <div id="switch_button_container" class="switch_button_container">
         <button id="yes_switch" class="switch_button">Yes</button>
@@ -310,6 +320,16 @@
             </div>
         </div>
     </div>
+    <!-- <div id="about_container">
+        <h2>About the Game</h2>
+        
+        <p>
+          The late Monty Hall began hosting gameshows in the 1960s, and inspired this logic puzzle, 
+          which was first posed (and solved) by Steve Selvin in 1975. You may have already seen a 
+          video or an article about the Monty Hall Problem as it's a relatively famous problem.
+        </p>
+
+    </div> -->
     <div id="simulation_container">
         <div id="simulation">
             <h2>Simulation</h2>
@@ -317,10 +337,11 @@
               Remember when you had the opportunity to change your guess? Does that matter?
               We can deduce that a random guess at three doors will give us a 1/3 chance of winning,
               but what about if we decide to switch?
-              Let's simulate a contestant that plays 100 games and always switches to find out.
+              Let's simulate 100 games with two contestants: one that switches every time and one that 
+              never switches. 
               <form class="long_dialog">
-                  Guess the win percentage of a contestant that switches every time (0 to 100):
-                  <input id="no_switch_guess" type="number" name="quantity" min="0" max="100" value="50">
+                  Guess the win percentage of a contestant that switches every time:
+                  <input id="no_switch_guess" type="number" name="quantity" min="0" max="100" value="0">
               </form>
             </p>
         </div>

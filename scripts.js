@@ -496,8 +496,6 @@ function updateChart(data, line){
             .attr("x2", x(Math.max(10,trialNumber)));
 }       
 
-
-
 // add the svg to the page without any data - will be updated as the data comes in
 
 var data = [];
@@ -527,7 +525,7 @@ var	valueline = d3.svg.line()
 var	svg = d3.select("#chart")
     .append("svg")
         .attr("preserveAspectRatio", "xMinYMin meet")
-        .attr("viewBox", "-90 -50 1000 750")
+        .attr("viewBox", "-90 0 1000 750")
         .classed("svg-content", true)
         // .attr("width", width + margin.left + margin.right)
         // .attr("height", height + margin.top + margin.bottom)
