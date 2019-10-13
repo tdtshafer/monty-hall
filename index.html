@@ -403,11 +403,30 @@
         <p>
           From this table we can deduce the probability of each outcome because we already know 
           the chance that the original guess was correct. Here's the key: the only way for a switching 
-          contestant to lose is if their original guess was correct. This 
+          contestant to lose is if their original guess was correct. This is because the revealed door 
+          will never be the door with the car, and will never be the originally chosen door. The host
+          (who knows where the car is) always eliminates an incorrect answer. This means the winning
+          chances of the player that stays are still 1/3, but the winning chances of the switching player
+          are 1 - (the chance the original guess is correct). This can be simplified to 1 - (1/3), which is 2/3.
 
         </p>
+        <p>
+          -more context-
+        </p>
+        <div id="transparent-dialog" class="text_commands_container">
+            <h4 id="text_commands" class="text_commands">pick a door</h4>
+        </div>
+        
     </div>
-    
+    <div class="row_of_doors_sim">
+        <div id="first-doors" class="sim_doors_and_button">
+            <div class="small_doors">
+                <img id="one" src="images/door_one_closed_transparent_car.png" alt="Door One: closed with car" class="sim-door"/>
+                <img id="two" src="images/door_two_closed_transparent_goat.png" alt="Door Two: closed with goat" class="sim-door"/>
+                <img id="three" src="images/door_three_closed_transparent_goat.png" alt="Door Three: closed with goat" class="door"/>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- load the d3.js library -->	
 <script src="http://d3js.org/d3.v3.min.js"></script>
