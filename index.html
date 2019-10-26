@@ -21,7 +21,6 @@
         margin: 0 auto;
         margin-top: 0px;
         margin-left: 10%;
-        /* background: #ca7321; */
         font-size: 180%;
         display: inline-block;
         padding-top: 0px;
@@ -39,7 +38,6 @@
     #about_container {
         width: 80%;
         margin: 0 auto;
-        /* background: rebeccapurple; */
     }
 
     .long_dialog,
@@ -50,7 +48,6 @@
     .switch_button_container{
         width: 60%;
         margin: 0 auto;
-        /* background: blueviolet; */
         display: flex;
         justify-content: space-evenly;
     }
@@ -86,7 +83,6 @@
     .row_of_doors {
         width: 80%;
         background: #f0e68c;
-        /* align-content: center; */
         display: flex;
         justify-content: space-evenly;
     }
@@ -94,12 +90,17 @@
     .row_of_doors_sim {
         width: 80%;
         margin: 0 auto;
-        /* background: #f0e68c; */
         margin-bottom: 2%;
         align-content: center;
         display: flex;
         padding-top: 0px;
     }
+
+    .row_of_doors_sim#variable_container {
+        width: 100%;
+    }
+
+
 
     /* .door {
         width: 20%;
@@ -132,7 +133,10 @@
         /* background: #da4747; */
         display: inline;
     }
-
+    .tiny-door{
+      width: 4%;
+      display: inline;
+    }
 
     .start_simulation{
         width: 60%;
@@ -151,7 +155,6 @@
     .sim_doors_and_button{
       display: block;
       width: 60%;
-      /* background-color: goldenrod; */
       margin-top: 0%;
       padding-top: 0px;
     }
@@ -164,8 +167,15 @@
       margin-top: 5%;
       display: flex;
       justify-content: space-evenly;
-      /* background-color: aqua; */
     }
+    
+    .variable_doors{
+      margin-top: 2%;
+      display: flex;
+      justify-content: space-evenly;
+      flex-wrap: wrap;
+    }
+    
 
     /* .game_simulator {
         width: 100%;
@@ -192,13 +202,11 @@
     #table-container{
       display: flex;
       margin: 0 auto;
-      /* background-color: aqua; */
     }
     
     #table-button-container{
       display: block;
       width: 30 %;
-      /* background-color: red; */
       align-items: left;
       justify-items: stretch;
       margin-top: 10%;
@@ -462,7 +470,30 @@
             This table confirms what our simulation already revealed - switching your guess
             will win two-thirds of the time!
         </p>
-  
+    </div>
+    <div class="analysis">
+      <h2>Exploration</h2>
+      <p>
+        We've explained one frame of reference for thinking about the Monty Hall problem,
+        but looking at it from another angle may provide more clarity. Working with small(er)
+        numbers usually simplifies a problem, but in this case, let's try the opposite.
+      </p>
+      <p>
+        Let's play again, but instead of three doors, now there are one hundred. 
+      </p>
+      <div name="short_dialog" class="text_commands_container">
+          <h4 id="100_text_commands" class="text_commands">pick a door</h4>
+      </div>
+      <div id="switch_button_container" class="switch_button_container">
+          <button id="yes_switch_variable" class="switch_button">Yes</button>
+          <button id="no_switch_variable" class="switch_button">No</button>
+          <button id="open_button_variable" class="open_button">Open all the doors!</button>
+          <button id="play_again_variable" class="open_button">Play again?</button>
+      </div>
+      <div class="row_of_doors_sim" id="variable_container">
+        <div class= "variable_doors" id="variable_doors">
+        </div>
+      </div>
     </div>
 </div>
 <!-- load the d3.js library -->	
