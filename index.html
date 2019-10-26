@@ -35,7 +35,7 @@
 
     .interactive_text_area,
     #simulation,
-    #analysis,
+    .analysis,
     #about_container {
         width: 80%;
         margin: 0 auto;
@@ -186,7 +186,7 @@
 
     ul{
       display: inline;
-      width: 40%;
+      /* width: 40%; */
     }
 
     #table-container{
@@ -278,6 +278,9 @@
       top: 0;
       left: 0;
     }
+    span {
+      font-weight: bold;
+    }
 
 </style>
 </head>
@@ -361,7 +364,7 @@
             <div id="chart" class="svg-container"></div>
         </div>
     </div>
-    <div id="analysis">
+    <div class="analysis">
         <h2>Analysis</h2>
         <p>
           As you can see over many trials, there is a long-term advantage to the contestant that
@@ -378,7 +381,7 @@
         <p>
           
         </p>
-        <p>
+        <!-- <p>
           Before the host opens the first door and reveals a goat, it's pretty clear that the 
           contestant has a 1/3 chance of winning - since they guessed randomly at three doors.
           After the goat is revealed, there are now only two closed doors - one that wins and one
@@ -387,19 +390,7 @@
 
           Let's consider the four possible outcomes:
         </p>
-        <ul id="outcomes-list">
-          <li>Switch and win</li>
-          <li>Switch and lose</li>
-          <li>Stay and win</li>
-          <li>Stay and lose</li>
-        </ul>
-        <div id="table-container">
-          <div id="table-button-container">
-              <button id="show-text-button" class="table-button">Show Text</button>
-              <button id="show-percentages-button" class="table-button">Show Percentages</button>
-          </div>
-            <img id="outcomes-table" src="images/table_with_text.png" alt="Data table with text" class="table"/>
-        </div>
+        
         <p>
           From this table we can deduce the probability of each outcome because we already know 
           the chance that the original guess was correct. Here's the key: the only way for a switching 
@@ -409,7 +400,7 @@
           chances of the player that stays are still 1/3, but the winning chances of the switching player
           are 1 - (the chance the original guess is correct). This can be simplified to 1 - (1/3), which is 2/3.
 
-        </p>
+        </p> -->
         <p>
           -more context-
           When the original guess is correct, the host can choose either door to open and reveal a goat.
@@ -418,19 +409,60 @@
           part of the key to understanding why switching leads to more wins - it means if the original
           guess was wrong, the winning door will always be available to be switched to.
         </p>
-        <div id="transparent-dialog" class="text_commands_container">
-            <h4 id="text_commands" class="text_commands">pick a door</h4>
-        </div>
+        <p>This time, you'll know what's behind the doors from the start.
+          Consider the following case:</p>
         
     </div>
     <div class="row_of_doors_sim">
         <div id="first-doors" class="sim_doors_and_button">
             <div class="small_doors">
                 <img id="one" src="images/door_one_closed_transparent_car.png" alt="Door One: closed with car" class="sim-door"/>
-                <img id="two" src="images/door_two_closed_transparent_goat.png" alt="Door Two: closed with goat" class="sim-door"/>
-                <img id="three" src="images/door_three_closed_transparent_goat.png" alt="Door Three: closed with goat" class="door"/>
+                <img id="two" src="images/door_two_closed_transparent_goat_selected.png" alt="Door Two: selected with goat" class="sim-door"/>
+                <img id="three" src="images/door_three_closed_transparent_goat.png" alt="Door Three: closed with goat" class="sim-door"/>
             </div>
         </div>
+    </div>
+    <div class='analysis'>
+      <p>
+        The contestant has selected door two, which we know contains a goat.
+        Since the host can't open the selected door (yet) and also can't reveal the car
+        behind door one (since that would ruin the game), that means that door three will
+        be opened to reveal the goat. This situation would mean a switching contestant
+        wins.
+      </p>
+      <p>
+        Now imagine the contestant chose door three instead of door two -  what changes?
+      </p>
+      <p>
+        The host will once again be forced to reveal the other goat (this time behind door two),
+        and the switching contestant will win. This uncovers a critical insight - <span>any contestant
+        that guesses wrong initially will win by switching</span>. After the selection
+        is made, let's consider the possible outcomes:
+      </p>
+
+        <ol id="outcomes-list">
+          <li>Switch and win</li>
+          <li>Switch and lose</li>
+          <li>Stay and win</li>
+          <li>Stay and lose</li>
+        </ol>
+        <p>
+          And if we put them in a table, it looks like this. By clicking "Show Percentages"
+          the text will be translated to the actual chances of that occurring in the game.
+        </p>
+        <div id="table-container">
+          <div id="table-button-container">
+              <button id="show-text-button" class="table-button">Show Text</button>
+              <button id="show-percentages-button" class="table-button">Show Percentages</button>
+          </div>
+            <img id="outcomes-table" src="images/table_with_text.png" alt="Data table with text" class="table"/>
+        </div>
+        <p>
+            The horizontal "win" row shows the chances we get from switching or staying.
+            This table confirms what our simulation already revealed - switching your guess
+            will win two-thirds of the time!
+        </p>
+  
     </div>
 </div>
 <!-- load the d3.js library -->	
