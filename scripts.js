@@ -79,17 +79,19 @@ class VariableGame{
         }
     };
 
-    revealWrongAnswers(){
+    async revealWrongAnswers(){
+        updateCommand('All these doors contains goats', '100_text_commands');
         for(var i=0; i < this.variableDoorsDiv.children.length; i++){
             let door = this.variableDoorsDiv.children[i];
             if( door.id != this.selectedDoor.id && 
                 door.id != this.winningId && 
                 door.id != this.contingencyId){
+                    await sleep(10);
                     door.setAttribute('src', 'images/unmarked_goat.png');
                     door.setAttribute('alt', 'tiny door open with goat');
             }
         };
-        updateCommand('All these doors contains goats', '100_text_commands');
+        
         this.promptVariableSwitch();
     };
 
@@ -130,6 +132,8 @@ class VariableGame{
 
     switchRejected(){
         // as an event handler `this` is bound to the incoming HTML object
+        document.getElementById('yes_switch_variable').removeEventListener('click', Variable.switchConfirmed);
+        document.getElementById('no_switch_variable').removeEventListener('click', Variable.switchRejected);
         collapseDiv('yes_switch_variable');
         collapseDiv('no_switch_variable');
         restoreDiv('open_button_variable', 'initial');
@@ -168,7 +172,30 @@ class VariableGame{
     }
 
     resetGameVariable(){
+        
+        while (Variable.variableDoorsDiv.firstChild) {
+            Variable.variableDoorsDiv.removeChild(Variable.variableDoorsDiv.firstChild);
+        }
 
+
+        updateCommand('pick a door', '100_text_commands');
+        hideButton('play_again_variable');
+        collapseDiv('play_again_variable');
+        showButton('yes_switch_variable');
+        showButton('no_switch_variable');
+        restoreDiv('yes_switch_variable', 'inline');
+        restoreDiv('no_switch_variable', 'inline');
+        hideButton('yes_switch_variable');
+        hideButton('no_switch_variable');
+        document.getElementById('yes_switch_variable').addEventListener('click', Variable.switchConfirmed);
+        document.getElementById('no_switch_variable').addEventListener('click', Variable.switchRejected);
+
+        Variable.numberOfDoors = 100;
+        Variable.winningId = Math.round(Math.random()*99) + 1;
+        Variable.selectedDoor = null;   
+        Variable.otherId = null;
+        Variable.contingencyId = -1;
+        Variable.buildDoors();
     }
 }
 
@@ -248,7 +275,7 @@ async function doorListener(e){
 
     updateCommand("You chose door " + doorNumber);
 
-    await sleep(10); //1000
+    await sleep(1000); //1000
 
     revealOneWrongAnswer();
     promptSwitch();
@@ -276,7 +303,7 @@ function revealOneWrongAnswer(){
 }
 
 async function promptSwitch(){
-    await sleep(20); //2000
+    await sleep(2000); //2000
     updateCommand('Would you like to change your guess?');
     showButton('yes_switch');
     showButton('no_switch');
@@ -343,7 +370,7 @@ function resetGame(){
         changeDoor(door, 'closed', 'door');
     })
     randomizeDoors();
-    updateCommand('Choose a door');
+    updateCommand('pick a door');
     hideButton('play_again');
     collapseDiv('play_again');
     showButton('yes_switch');
@@ -401,7 +428,7 @@ function startSimulation(){
     document.getElementById('start_simulation').removeEventListener('click', startSimulation);
     // let noSwitchTrials = 100;
     // let switchTrials = 100;
-    let numberOfTrials = 100;
+    let numberOfTrials = 200;
     alternateTrials(numberOfTrials);
     addGuessLine(numberOfTrials);
     // runSwitchTrials(numberOfTrials);
