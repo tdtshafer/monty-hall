@@ -4,8 +4,16 @@
   <meta charset="utf-8">
 
   <title>The Monty Hall Problem</title>
+  
   <meta name="description" content="An interactive look at the classic logic puzzle">
   <style type="text/css">
+    
+    h4, h5{
+      /* background-color: aqua; */
+      padding: 0px;
+      margin: 0 auto;
+    }
+
     .collage-container{
         width: 60%;
         margin: 0 auto;
@@ -30,6 +38,7 @@
       vertical-align: top;
       padding: 0px;
       margin: 0 auto;
+      margin-bottom: 0%;
     }
 
     .interactive_text_area,
@@ -45,9 +54,12 @@
       font-size: 150%;
     }
 
+    .tab-p{
+      margin-left: 40px;
+    }
+
     blockquote{
       font-size: 140%;
-      /* background-color: grey; */
       font-style: italic;
     }
 
@@ -111,17 +123,11 @@
       display: inline;
       margin: 0 auto;
     }
-    
-    /* .door {
-        width: 20%;
-        background: #da4747;
-    } */
 
     .text_commands {
         font-size: 220%;
         margin-top: 0px;
         margin: 0 auto;
-        /* background: #1c2899; */
         width: 80%;
         text-align: center;
         display: block;
@@ -131,7 +137,6 @@
     .stay-figure{
         margin-top: 20%;
         width: 20%;
-        /* background: #da4747; */
         display: inline-block;
         
     }
@@ -140,7 +145,6 @@
     .door,
     .sim-door{
         width: 30%;
-        /* background: #da4747; */
         display: inline;
     }
     .tiny-door{
@@ -185,24 +189,14 @@
       justify-content: space-evenly;
       flex-wrap: wrap;
     }
-    
 
-    /* .game_simulator {
-        width: 100%;
-        margin: 0 auto;
-        background: #f0e68c;
-        margin-bottom: 3%;
-        margin-left: 3%;
-        padding-left: 10%;
-    } */
-
-  input{
-    width: 9%;
-    padding-left: 10px;
-    box-sizing: border-box;
-    border-radius: 4px;
-    font-size: 70%;
-  }
+    input{
+      width: 9%;
+      padding-left: 10px;
+      box-sizing: border-box;
+      border-radius: 4px;
+      font-size: 70%;
+    }
 
     ul{
       display: inline;
@@ -216,7 +210,7 @@
     
     #table-button-container{
       display: block;
-      width: 30 %;
+      width: 30%;
       align-items: left;
       justify-items: stretch;
       margin-top: 10%;
@@ -299,6 +293,10 @@
     span {
       font-weight: bold;
     }
+    
+    .attribution{
+      font-size: 80%;
+    }
 
 </style>
 </head>
@@ -310,6 +308,8 @@
     </div>
     <div class="headline-container">
       <h1 class="headline">The Monty Hall Problem</h1>
+      <h4>An interactive look at the classic logic puzzle</h4>
+      
     </div>
     <div name="interactive_text_area" class="interactive_text_area">
       <p>
@@ -368,7 +368,8 @@
               <a href="https://www.youtube.com/watch?v=4Lb-6rxZxx0">this one</a> from Numberphile or
               <a href="https://www.youtube.com/watch?v=TVq2ivVpZgQ">this one</a> from Vsauce. 
 
-              Why make this if there are so many existing resources? Consider this excerpt from the Monty Hall Problem
+              Although this problem has definitely been thoroughly covered, consider this 
+              excerpt from the Monty Hall Problem
               <a href="https://en.wikipedia.org/wiki/Monty_Hall_problem">wikipedia page</a>:
               <blockquote>
                   In her book The Power of Logical Thinking, vos Savant (1996, p. 15) quotes cognitive 
@@ -378,22 +379,30 @@
                   to berate in print those who propose the right answer".
               </blockquote>
               <p>
+              If you've never explored the Monty Hall problem, you're in for a treat.
               Hopefully once you've interacted with this page, this potentially confounding puzzle will
               make sense!
               </p>
             <h2>Discussion</h2>
               <p>
-              It feels like switching to another unknown door is pointless, since it's still unknonwn. If you decide
-              to switch and your original guess was correct, it feels like you had it and you gave it away. (This
-              is called <a href="https://en.wikipedia.org/wiki/Endowment_effect">the Endowment effect</a>; overvaluing the 
-              already 'owned' or chosen) Perhaps it's more difficult to handle the consequences of direct action
-              (like switching and losing) as opposed to inaction (like staying and losing).
+                It feels like switching to another unknown door is pointless, since it's still unknonwn. If you decide
+                to switch and your original guess was correct, it feels like you had it and you gave it away. (This
+                is called <a href="https://en.wikipedia.org/wiki/Endowment_effect">the Endowment effect</a>; overvaluing the 
+                already 'owned' or chosen) Perhaps it's more difficult to handle the consequences of direct action
+                (like switching and losing) as opposed to inaction (like staying and losing).
               </p>
               <p>
-              Since the first choice was arbitrarily made as a true guess, why would switching be any better?
-              A <a href='https://journals.sagepub.com/doi/10.1177/0146167295217006'>1995 research article</a>
-              by Thad A. Brown found that only 13% of his 228 participants chose to switch their guess when
-              given the opportunity.
+                Since the first choice was arbitrarily made as a true guess, why would switching be any better?
+                A <a href='https://journals.sagepub.com/doi/10.1177/0146167295217006'>1995 research article</a>
+                by Thad A. Brown found that only 13% of his 228 participants chose to switch their guess when
+                given the opportunity.
+              </p>
+              <p>
+                Once one door is opened and now there are two unopened doors remaining, it feels like it's a 50-50
+                chance - that's what it would be if you started the game at that phase, right? The problem with this 
+                approach is that it discards some valuable information concerning the original probability of the 
+                selection. When we made the selection the situation was different - and we can use this information
+                to our advantage.
               </p>
               <img src="images/actual-show.png" id="actual-show"/>
               <figcaption>On the set of <i>Let's Make a Deal</i> featuring three doors</figcaption>
@@ -442,36 +451,6 @@
           As you can see over many trials, there is a long-term advantage to the contestant that
           chooses to switch every game...but why? Let's looks a little closer.
         </p>
-        <!-- <ol>
-          <li>The host presents the contestant with three doors</li>
-          <li>The contestant chooses one of the doors</li>
-          <li>The host opens an unselected door and reveals a goat</li>
-          <li>The contestant has the opportunity to change their selection</li>
-          <li>All the doors are opened</li>
-        </ol> -->
-        <p>
-          
-        </p>
-        <!-- <p>
-          Before the host opens the first door and reveals a goat, it's pretty clear that the 
-          contestant has a 1/3 chance of winning - since they guessed randomly at three doors.
-          After the goat is revealed, there are now only two closed doors - one that wins and one
-          that loses. So there are now two possible places for the car to be: behind the original 
-          selection or behind the switch candidate.
-
-          Let's consider the four possible outcomes:
-        </p>
-        
-        <p>
-          From this table we can deduce the probability of each outcome because we already know 
-          the chance that the original guess was correct. Here's the key: the only way for a switching 
-          contestant to lose is if their original guess was correct. This is because the revealed door 
-          will never be the door with the car, and will never be the originally chosen door. The host
-          (who knows where the car is) always eliminates an incorrect answer. This means the winning
-          chances of the player that stays are still 1/3, but the winning chances of the switching player
-          are 1 - (the chance the original guess is correct). This can be simplified to 1 - (1/3), which is 2/3.
-
-        </p> -->
         <p>
           When the original guess is correct, the host can choose either door to open and reveal a goat.
           But when the original guess is incorrect, that host must be more selective - he can't open the 
@@ -536,6 +515,32 @@
             This table confirms what our simulation already revealed - switching your guess
             will win two-thirds of the time!
         </p>
+        <p class="tab-p">
+            Switch Win % = 1 - (the chance the original guess was correct)<br>
+            Switch Win % = 1 - (1/3) = <b>2/3</b><br>
+        </p>
+        <p>
+            The formula is a little bit more complicated if we want to cover the general case, 
+            but for the traditional assumptions of the Monty Hall problem, this simplified version works great. 
+            The full formula looks like this: <br>
+          <p class="tab-p">
+            Switch Win % = (GuessWrong)(SwitchRighGuessWrong)+(GuessRight)(SwitchRightGuessRight)
+          </p>
+          <p>
+            Since there is only one door remaining, SwitchRightGuessWrong is 1 (meaning if we guess
+            wrong initially, the switch always win the car) and SwitchRightGuessRight is 0
+            (meaning if we guess right initially, the switch will never win the car).
+            If we plug that in and simplify it, we get the following:
+          </p>
+          <p class="tab-p">
+            Switch Win % = (GuessIsWrong)(1) + (GuessIsRight)(0)<br>
+            Switch Win % = (GuessIsWrong) = <b>1 - GuessIsRight</b>
+          </p>
+        </p>
+        <p>
+          The full formula helps when exploring more complicated iterations of the problem, for example
+          with multiple cars or multiple doors available to switch to.
+        </p>
     </div>
     <div class="analysis">
       <h2>Exploration</h2>
@@ -566,12 +571,27 @@
         <span>only one door remaining</span> available to select through switching.
         Since there are only two options on the table, we can easily calculate the winning chances:
       </p>
-      <p>
+      <p class = "tab-p">
         Switch Win % = 1 - (the chance the original guess was correct)<br>
         Switch Win % = 1 - (1/100) = <b>99/100</b><br>
-
       </p>
-      <p></p>
+      <p>
+        This means there's a 99% chance you'll win if you switch - it's just easier to see the advantage
+        in this example because there are so many doors. 
+      </p>
+      <h2>Conclusion</h2>
+      <p>
+        The results are in and the math shows that switching maximizes a contestant's winning chances.
+        It still takes a bit of thought to wrap your head around this one - feel free to play around 
+        with the tools above to sharpen your understanding. There are still things to explore:
+        What if there is more than one car? Or more than one door available to switch to? How will
+        this affect our chances? See if you can puzzle it out for yourself.
+      </p>
+      <br>
+      <br>
+      <br>
+      <p class = 'attribution'><i>Written, designed, and built by Travis Shafer</i></p>
+      <br>
     </div>
 </div>
 <!-- load the d3.js library -->	
