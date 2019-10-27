@@ -29,7 +29,6 @@ class VariableGame{
         this.otherId;
         this.contingencyId = -1;
         this.variableDoorsDiv = document.getElementById('variable_doors');
-        console.log(this.winningId);
     }
 
     buildDoors(){
@@ -143,8 +142,7 @@ class VariableGame{
 
     theBigRevealVariable(){
         // as an event handler `this` is bound to the incoming HTML object
-        console.log(Variable.winningId);
-        console.log(Variable.selectedDoor);
+
         let isWinner = Variable.winningId===parseInt(Variable.selectedDoor.id);
         if(isWinner){
             Variable.selectedDoor.setAttribute('src', 'images/unmarked_selected_car.png');
@@ -265,8 +263,6 @@ async function doorListener(e){
         doorNumber, 
         newDoorState
     );
-    console.log(doorNumber);
-    console.log(doorState);
     e.srcElement.setAttribute('alt', newImageAlt);
     e.srcElement.setAttribute('src', newImageString);
     doorsArray.forEach(function(door){
@@ -313,9 +309,6 @@ async function promptSwitch(){
 
 function getOtherDoor(){
     return doorsArray.find(function(door){
-        // console.log(numstringToIndex[door.id])
-        // console.log([indexToReveal, doorSelectedIndex])
-        // console.log(!(numstringToIndex[door.id] in [indexToReveal, doorSelectedIndex]))
         if (!([indexToReveal, doorSelectedIndex].includes(numstringToIndex[door.id]))){
             return door;
         }
@@ -462,7 +455,6 @@ async function alternateTrials(numberOfTrials){
 
 async function runSwitchTrials(numTrials, data, inverseData, trialNumber){
     let trialResult = runOneSwitchTrialLogic();
-    console.log(trialResult);
     
     let simSelectedDoor = trialResult.selectedDoor;
     
@@ -600,7 +592,6 @@ function runOneNoSwitchTrialLogic(){
 
 function processData(data){
     let wins = 0;
-    console.log(data);
     return data.map(function(datapoint, index){
         trialNumber = index+1;
         wins += datapoint;
@@ -632,7 +623,6 @@ function addGuessLine(trialNumber){
 }
 
 function addFinalResultLine(finalResult, strategy){
-    console.log(finalResult)
     svg.append("line")
         .attr('class', 'guess')
         .style("stroke", "green")  // color the line
@@ -681,7 +671,6 @@ function updateChart(data, line){
             // .duration(750)
             .call(yAxis);
         
-        console.log(data);
         svg.select(".guess")   // change the guess line
             .attr("x2", x(Math.max(10,trialNumber)));
 }       
