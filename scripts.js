@@ -175,7 +175,6 @@ class VariableGame{
             Variable.variableDoorsDiv.removeChild(Variable.variableDoorsDiv.firstChild);
         }
 
-
         updateCommand('pick a door', '100_text_commands');
         hideButton('play_again_variable');
         collapseDiv('play_again_variable');
@@ -198,10 +197,13 @@ class VariableGame{
 }
 
 window.onload = setupGame;
+var Variable = null;
 
 function setupGame() {
-    Variable = new VariableGame();
-    Variable.buildDoors();
+    if(!Variable){
+        Variable = new VariableGame();
+        Variable.buildDoors();
+    }
 
     doors = document.getElementsByClassName('door');
     doorsArray = Array.from(doors);
